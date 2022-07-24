@@ -20,8 +20,8 @@ transformation 操作组件
 
 ### 产品
 
-### <img src="https://img2022.cnblogs.com/blog/1415778/202207/1415778-20220724203405163-141622760.jpg" alt="image" style="zoom:33%;" />
+ ![image](https://img2022.cnblogs.com/blog/1415778/202207/1415778-20220724205953365-1098123774.jpg)
 
 ### 赞助
 
-<img src="https://img2022.cnblogs.com/blog/1415778/202207/1415778-20220724204944625-1369453214.jpg" alt="image" style="zoom:10%;" /><img src="https://img2022.cnblogs.com/blog/1415778/202207/1415778-20220724205048601-1376344964.jpg" alt="image" style="zoom:15%;" />
+ ![image](https://img2022.cnblogs.com/blog/1415778/202207/1415778-20220724205957245-612981823.jpg)![image](https://img2022.cnblogs.com/blog/1415778/202207/1415778-20220724210000680-1050182724.jpg)
