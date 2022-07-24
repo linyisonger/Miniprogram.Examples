@@ -1,0 +1,10 @@
+<wxs module="format">
+  module.exports.has = function (str, searchString) {
+    return str.indexOf(searchString) > -1
+  }
+</wxs>
+<view class="composing-list">
+  <view class="composing-item" wx:for="{{config}}" wx:key="unique" hidden="{{item.count!=count}}" bindtap="change" data-item="{{item}}" hover-class="hover" wx:if="{{item.icon&&format.has(item.paperSize.n,paperSizeName)}}">
+    <image class="composing-icon" src="{{item.icon}}" mode="aspectFit"></image>
+  </view>
+</view>

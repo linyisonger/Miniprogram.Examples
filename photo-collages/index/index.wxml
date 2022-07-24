@@ -1,0 +1,16 @@
+<view class="container">
+  <view class="add-photos" hover-class="hover" bindtap="addPhotos" hidden="{{imageUrls.length>0}}">
+    <image src="/images/add.png" mode="aspectFit"></image>
+  </view>
+  <view class="paper" hidden="{{imageUrls.length==0}}">
+    <paper class="main" paperSize="{{paperSize}}" imageUrls="{{imageUrls}}" composing="{{composingArr}}" bind:delete="removePhoto"></paper>
+  </view>
+</view>
+
+<view class="footer" style="padding-bottom: {{safeAreaBottom||10}}px;">
+  <composing count="{{imageUrls.length}}" bindchange="composingChange" />
+  <view class="btns">
+    <button type="default" bindtap="addPhotos" disabled="{{imageUrls.length>=maxUploadImageCount}}">继续添加({{imageUrls.length}}/{{maxUploadImageCount}})</button>
+    <button type="default" bindtap="composePhoto">去打印</button>
+  </view>
+</view>

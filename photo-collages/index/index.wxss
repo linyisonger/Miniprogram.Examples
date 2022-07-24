@@ -1,0 +1,51 @@
+page {
+  background-color: #f8f9fb;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.hover {
+  opacity: .6;
+  background-color: #ddd !important;
+}
+
+.container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-photos {
+  width: 375rpx;
+  height: 375rpx;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-photos image {
+  width: 60%;
+  height: 60%;
+}
+
+.transformation {
+  width: 600rpx;
+  height: 600rpx;
+}
+
+.paper {
+  background-color: #fff;
+  box-shadow: 5px 5px 10px #A6A6A6;
+}
+
+.footer {
+  padding-top: 20rpx;
+  width: 100%;
+  background-color: #fff;
+}
+.footer .btns{
+  display: flex;
+}

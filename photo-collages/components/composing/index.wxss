@@ -1,0 +1,26 @@
+:host {
+  display: flex;
+}
+
+.hover {
+  opacity: .6;
+  background-color: #ddd !important;
+}
+
+.composing-list {
+  display: flex;
+  padding: 0 40rpx;
+}
+
+.composing-item {
+  display: flex;
+  margin-right: 40rpx;
+}
+
+.composing-icon {
+  display: flex;
+  width: 140rpx;
+  margin: 20rpx 0;
+  padding: 0 8rpx;
+  height: 260rpx;
+}

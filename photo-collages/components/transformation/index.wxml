@@ -1,0 +1,2 @@
+<canvas type="2d" id="photo" class="photo" bindtouchstart="touchstart" bindtouchmove="touchmove" bindtouchend="touchend" disable-scroll="{{true}}"></canvas>
+<slot></slot>

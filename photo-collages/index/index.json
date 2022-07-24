@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "paper": "../components/paper/index",
+    "transformation": "../components/transformation/index",
+    "composing": "../components/composing/index"
+  },
+  "disableScroll": true,
+  "navigationBarTitleText": "照片排版"
+}
