@@ -150,7 +150,7 @@ Component({
             let h = tran.height - padding;
             let img = await createImage(canvas, imgUrl)
             ctx.drawImage(img, x, y, w, h);
-            drawBorder(ctx, x, y, w, h)
+            // drawBorder(ctx, x, y, w, h)
           }
           const base64 = canvas.toDataURL(type, quality)
           const tempFilePath = await base64ToTempFilePath(base64)

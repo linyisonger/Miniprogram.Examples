@@ -190,7 +190,7 @@ Component({
     /** 照片 */
     photo: null,
     /** 间隔 */
-    interval: 20,
+    interval: 50,
     /** 最后操作时间 */
     lasttime: 0
   },
