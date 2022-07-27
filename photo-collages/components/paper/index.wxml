@@ -9,7 +9,7 @@
 
 <view class="paper" style="{{format.getStyleForPaper(paperSize)}}">
   <view class="content">
-    <transformation minSize=".5" maxSize="2" class="trans" wx:for="{{imageUrls}}" wx:key="unique" src="{{item}}" style="{{format.getStyleForComposing(composing[index])}}">
+    <transformation minSize=".5" maxSize="10" class="trans" wx:for="{{imageUrls}}" wx:key="unique" src="{{item}}" style="{{format.getStyleForComposing(composing[index])}}">
       <cover-image src="../../images/del.jpg" class="del" catchtap="delete" data-index="{{index}}" />
     </transformation>
   </view>
