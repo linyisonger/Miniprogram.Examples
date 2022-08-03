@@ -374,6 +374,22 @@ papers.forEach(ps => {
     }))
     tmp = [
       {
+        count: 1,
+        icon: '/images/13.png',
+        paperSize: ps,
+        composing: [
+          new Composing(1 / 4, 1 / 4, 1 / 2, 1 / 2),
+        ]
+      },
+      {
+        count: 1,
+        icon: '/images/14.png',
+        paperSize: ps,
+        composing: [
+          new Composing(1 / 7, 1 / 9, 5 / 7, 3 / 9),
+        ]
+      },
+      {
         count: 2,
         icon: '/images/23.png',
         paperSize: ps,
@@ -481,7 +497,6 @@ papers.forEach(ps => {
   }
 })
 config.sort((a, b) => a.weight - b.weight)
-console.log(config);
 /**
  * @author 林一怂儿 
  * @description 这个组件用于排版切换

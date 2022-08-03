@@ -49,6 +49,20 @@ function createImage(canvas, src) {
   })
 }
 
+/** 
+ * @param {string} src 
+ * @returns {Promise<WechatMiniprogram.GetImageInfoSuccessCallbackResult> }
+ */
+function getImageInfo(src) {
+  return new Promise((resolve, reject) => {
+    wx.getImageInfo({
+      src,
+      success: (res) => {
+        resolve(res)
+      }
+    })
+  })
+}
 /**
  * 二维向量
  */
@@ -192,7 +206,9 @@ Component({
     /** 间隔 */
     interval: 50,
     /** 最后操作时间 */
-    lasttime: 0
+    lasttime: 0,
+    /** 是否使用新版的canvas */
+    isNew: true
   },
   lifetimes: {
     ready() {
@@ -201,19 +217,27 @@ Component({
   },
   methods: {
     reset() {
+      if (this.isLowerThenVersion('2.11.0')) this.setData({ isNew: false })
       const query = this.createSelectorQuery()
-      query.select('#photo')
+      query.select('.photo')
         .fields({ node: true, size: true })
         .exec(async (res) => {
-          const canvas = res[0].node
-          const ctx = canvas.getContext('2d')
-          const dpr = wx.getSystemInfoSync().pixelRatio
-          canvas.width = res[0].width * dpr
-          canvas.height = res[0].height * dpr
-          ctx.scale(dpr, dpr)
-          this.data.canvas = canvas;
-          this.data.ctx = ctx;
-          this.loaded = true;
+          if (!res[0]) return;
+          if (this.data.isNew) {
+            const canvas = res[0].node
+            const ctx = canvas.getContext('2d')
+            const dpr = wx.getSystemInfoSync().pixelRatio
+            canvas.width = res[0].width * dpr
+            canvas.height = res[0].height * dpr
+            ctx.scale(dpr, dpr)
+            this.data.canvas = canvas;
+            this.data.ctx = ctx;
+            this.loaded = true;
+          }
+          else {
+            this.setData({ canvas: { ...res[0] } })
+            this.data.ctx = wx.createCanvasContext('photo', this)
+          }
           await this.loadSrc(this.properties.src)
           this.render();
         })
@@ -224,13 +248,16 @@ Component({
      */
     async loadSrc(src) {
       /** @type {HTMLCanvasElement} */
-      const canvas = this.data.canvas;
-      const dpr = wx.getSystemInfoSync().pixelRatio
-      const width = canvas.width / dpr
-      const height = canvas.height / dpr
-
-      const image = await createImage(canvas, src)
-      const { ow, oh } = contain(+image.width, +image.height, width, height)
+      let canvas = this.data.canvas;
+      let dpr = wx.getSystemInfoSync().pixelRatio
+      let width = canvas.width / dpr
+      let height = canvas.height / dpr
+      let image = this.data.isNew ? await createImage(canvas, src) : await getImageInfo(src)
+      if (!this.data.isNew) {
+        width = canvas.width;
+        height = canvas.height
+      }
+      let { ow, oh } = contain(+image.width, +image.height, width, height)
       let x = (width - ow) / 2
       let y = (height - oh) / 2
       let w = ow;
@@ -238,7 +265,23 @@ Component({
       this.data.photo = new Photo(x, y, w, h, image)
     },
     toDataURL(type, quality) {
-      return this.data.canvas?.toDataURL(type, quality)
+      if (!this.data.isNew) {
+        return new Promise((resolve) => {
+          this.data.ctx.draw(true, () => {
+            wx.canvasToTempFilePath({
+              fileType: 'jpg',
+              quality,
+              canvasId: 'photo',
+              success: (res) => {
+                resolve(res.tempFilePath)
+              },
+            }, this)
+          })
+        })
+      }
+      else {
+        return this.data.canvas?.toDataURL(type, quality)
+      }
     },
     touchstart(e) {
       /** @type {V2[]} */
@@ -324,7 +367,31 @@ Component({
       /** @type {Photo} */
       const photo = this.data.photo;
       ctx.clearRect(0, 0, canvas.width, canvas.height)
-      ctx.drawImage(photo.img, photo.x, photo.y, photo.w, photo.h)
+      if (this.data.isNew) {
+        ctx.drawImage(photo.img, photo.x, photo.y, photo.w, photo.h)
+      }
+      else {
+        ctx.drawImage(this.properties.src, photo.x, photo.y, photo.w, photo.h)
+        ctx.draw(false)
+      }
+    },
+    // 是否低于某个版本
+    isLowerThenVersion(target) {
+      let SDKVersion = wx.getSystemInfoSync().SDKVersion;
+      let currArr = /([\d]{1,}).([\d]{1,}).([\d]{1,})/.exec(SDKVersion);
+      let targArr = /([\d]{1,}).([\d]{1,}).([\d]{1,})/.exec(target);
+      let currMaj = +currArr[1]
+      let currMin = +currArr[2]
+      let currPat = +currArr[3]
+      let targMaj = +targArr[1]
+      let targMin = +targArr[2]
+      let targPat = +targArr[3]
+      if (currMaj < targMaj) return true;
+      if (currMaj > targMaj) return false;
+      if (currMin < targMin) return true;
+      if (currMin > targMin) return false;
+      if (currPat < targPat) return true;
+      return false
     }
   }
 })

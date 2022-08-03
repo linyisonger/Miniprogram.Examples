@@ -99,6 +99,16 @@ Component({
       default: null
     }
   },
+  data: {
+    isNew: true
+  },
+  lifetimes: {
+    created() {
+    },
+    ready() {
+      if (this.isLowerThenVersion('2.11.0')) this.setData({ isNew: false })
+    }
+  },
   methods: {
     delete(e) {
       this.triggerEvent('delete', { index: e.currentTarget.dataset.index })
@@ -106,20 +116,27 @@ Component({
     async toDataUrl(type, quality) {
       return new Promise((resolve) => {
         const query = this.createSelectorQuery()
-        query.select('#compose').fields({ node: true, size: true });
+        query.select('.compose').fields({ node: true, size: true });
         query.select('.paper').boundingClientRect()
         query.select('.content').boundingClientRect()
         query.selectAll('.trans').boundingClientRect()
         query.exec(async (res) => {
-          console.log(res);
           /** @type {HTMLCanvasElement} */
-          const canvas = res[0].node
+          let canvas
           /** @type {CanvasRenderingContext2D} */
-          const ctx = canvas.getContext('2d')
-          const dpr = wx.getSystemInfoSync().pixelRatio
-          canvas.width = res[0].width * dpr
-          canvas.height = res[0].height * dpr
-          ctx.scale(dpr, dpr)
+          let ctx
+          if (this.data.isNew) {
+            canvas = res[0].node
+            ctx = canvas.getContext('2d')
+            const dpr = wx.getSystemInfoSync().pixelRatio
+            canvas.width = res[0].width * dpr
+            canvas.height = res[0].height * dpr
+            ctx.scale(dpr, dpr)
+          }
+          else {
+            canvas = { ...res[0] }
+            ctx = wx.createCanvasContext('compose', this)
+          }
           /** @type {Rect} */
           let paper = res[1]
           /** @type {Rect} */
@@ -130,14 +147,17 @@ Component({
           let width = res[0].width;
           let height = res[0].height;
 
-          ctx.fillStyle = "#fff";
+          if (this.data.isNew) ctx.fillStyle = "#fff";
+          else ctx.setFillStyle('#fff')
           ctx.fillRect(0, 0, width, height)
 
           let padding = paper.width - content.width;
           // 结果图片数组
-          let resultImageUrls = this.selectAllComponents('.trans').map(tran => {
+          let resultImageUrls = this.data.isNew ? this.selectAllComponents('.trans').map(tran => {
             return tran.toDataURL(type, query)
-          })
+          }) : await Promise.all(this.selectAllComponents('.trans').map(tran => {
+            return tran.toDataURL(type, query)
+          }))
           // 摆盘
           for (let i = 0; i < this.data.composing.length; i++) {
             /** @type {import('../composing/index').Composing} */
@@ -148,18 +168,50 @@ Component({
             let y = tran.top - paper.top + padding;
             let w = tran.width - padding;
             let h = tran.height - padding;
-            let img = await createImage(canvas, imgUrl)
+            let img = this.data.isNew ? await createImage(canvas, imgUrl) : imgUrl
             ctx.drawImage(img, x, y, w, h);
-            // drawBorder(ctx, x, y, w, h)
+            // drawBorder(ctx, x, y, w, h) 
           }
-          const base64 = canvas.toDataURL(type, quality)
-          const tempFilePath = await base64ToTempFilePath(base64)
-          resolve({
-            tempFilePath,
-            base64
-          })
+          if (!this.data.isNew) {
+            ctx.draw(false, () => {
+              wx.canvasToTempFilePath({
+                canvasId: 'compose',
+                success: (res) => {
+                  resolve({
+                    tempFilePath: res.tempFilePath
+                  })
+                },
+              }, this)
+            }, this)
+          }
+          else {
+            const base64 = canvas.toDataURL(type, quality)
+            const tempFilePath = await base64ToTempFilePath(base64)
+            resolve({
+              tempFilePath,
+              base64
+            })
+          }
         })
       })
+    },
+    // 是否低于某个版本
+    isLowerThenVersion(target) {
+      let SDKVersion = wx.getSystemInfoSync().SDKVersion;
+      let currArr = /([\d]{1,}).([\d]{1,}).([\d]{1,})/.exec(SDKVersion);
+      let targArr = /([\d]{1,}).([\d]{1,}).([\d]{1,})/.exec(target);
+      let currMaj = +currArr[1]
+      let currMin = +currArr[2]
+      let currPat = +currArr[3]
+      let targMaj = +targArr[1]
+      let targMin = +targArr[2]
+      let targPat = +targArr[3]
+      if (currMaj < targMaj) return true;
+      if (currMaj > targMaj) return false;
+      if (currMin < targMin) return true;
+      if (currMin > targMin) return false;
+      if (currPat < targPat) return true;
+      return false
     }
   },
   observers: {

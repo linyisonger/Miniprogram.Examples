@@ -5,3 +5,9 @@
   display: flex;
   box-sizing: border-box;
 }
+.abs.photo{
+  position: absolute;
+  pointer-events: none;
+  width: calc(100% - var(--padding));
+  height: calc(100% - var(--padding));
+}

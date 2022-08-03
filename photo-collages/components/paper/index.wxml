@@ -13,5 +13,6 @@
       <cover-image src="../../images/del.jpg" class="del" catchtap="delete" data-index="{{index}}" />
     </transformation>
   </view>
-  <canvas type="2d" id="compose" class="compose"></canvas>
+  <canvas wx:if="{{isNew}}" type="2d" id="compose" class="compose"></canvas>
+  <canvas wx:else canvas-id="compose" class="compose"></canvas>
 </view>
