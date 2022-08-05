@@ -3,6 +3,7 @@
     return 'left:' + co.x * 100 + '%;top:' + co.y * 100 + '%;width:' + co.w * 100 + '%;height:' + co.h * 100 + '%'
   }
   module.exports.getStyleForPaper = function (co) {
+    if (!co) co = { w: 0, h: 0 }
     return 'width:' + co.w + 'rpx;height:' + co.h + 'rpx;'
   }
 </wxs>

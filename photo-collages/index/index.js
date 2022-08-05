@@ -1,3 +1,36 @@
+/**
+ * 缩放
+ * @param {number} ow 源图宽 
+ * @param {number} oh 源图高
+ * @param {number} tw 目标宽
+ * @param {number} th 目标高
+ */
+function contain(ow, oh, tw, th) {
+  let s = 0;
+  if (ow > oh) {
+    s = ow / oh;
+    ow = tw;
+    oh = ow / s
+  }
+  else {
+    s = ow / oh;
+    oh = th;
+    ow = oh * s
+  }
+
+  if (th < oh) {
+    s = ow / oh;
+    oh = th;
+    ow = oh * s
+  }
+
+  if (tw < ow) {
+    s = ow / oh;
+    ow = tw;
+    oh = ow / s
+  }
+  return { ow, oh }
+}
 Page({
   data: {
     /** 底部安全距离 */
@@ -49,11 +82,26 @@ Page({
     this.setData({ imageUrls: this.data.imageUrls })
   },
   composingChange(e) {
-    this.setData({ composingArr: e.detail.composing, paperSize: e.detail.paperSize })
+    const paperSize = e.detail.paperSize
+    setTimeout(() => {
+      wx.createSelectorQuery().select('.container').boundingClientRect().exec((res) => {
+        let { windowWidth } = wx.getSystemInfoSync()
+        let [con] = res
+        let w = paperSize.w / 750 * windowWidth;
+        let h = paperSize.h / 750 * windowWidth;
+        let cw = con.width - 20
+        let ch = con.height - 40
+        let { ow, oh } = contain(w, h, cw, ch)
+        ow = ow / windowWidth * 750;
+        oh = oh / windowWidth * 750;
+        paperSize.w = ow;
+        paperSize.h = oh;
+        this.setData({ composingArr: e.detail.composing, paperSize })
+      })
+    }, 0);
   },
   async composePhoto() {
     let result = await this.selectComponent('.main').toDataUrl()
-    console.log(result);
     wx.saveImageToPhotosAlbum({
       filePath: result.tempFilePath,
       success: (res) => {

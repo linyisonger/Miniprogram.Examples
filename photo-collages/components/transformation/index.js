@@ -218,11 +218,12 @@ Component({
   methods: {
     reset() {
       if (this.isLowerThenVersion('2.11.0')) this.setData({ isNew: false })
+
       const query = this.createSelectorQuery()
-      query.select('.photo')
-        .fields({ node: true, size: true })
-        .exec(async (res) => {
-          if (!res[0]) return;
+      query.select('#photo').fields({ node: true, size: true });
+      query.select('.photo.abs').fields({ node: true, size: true });
+      setTimeout(() => {
+        query.exec(async (res) => {
           if (this.data.isNew) {
             const canvas = res[0].node
             const ctx = canvas.getContext('2d')
@@ -235,12 +236,13 @@ Component({
             this.loaded = true;
           }
           else {
-            this.setData({ canvas: { ...res[0] } })
+            this.setData({ canvas: { ...res[1] } })
             this.data.ctx = wx.createCanvasContext('photo', this)
           }
           await this.loadSrc(this.properties.src)
           this.render();
         })
+      }, 0);
     },
     /**
      * 读图片

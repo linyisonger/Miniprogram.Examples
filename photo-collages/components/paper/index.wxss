@@ -11,6 +11,7 @@
   padding-right: var(--padding);
   padding-bottom: var(--padding);
   position: relative;
+  overflow: hidden;
 }
 
 .content {
