@@ -240,7 +240,9 @@ Component({
             this.data.ctx = wx.createCanvasContext('photo', this)
           }
           await this.loadSrc(this.properties.src)
-          this.render();
+          setTimeout(() => {
+            this.render();
+          }, 0)
         })
       }, 0);
     },

@@ -522,11 +522,11 @@ Component({
   },
   observers: {
     count: function (n) {
-      const comp = this.data.config.find(c => c.count == n);
+      const comp = this.data.config.find(c => c.paperSize.n.includes(this.properties.name) && c.count == n);
       this.triggerEvent('change', comp);
     },
-    name: function () {
-      this.setData({ paperSizeName: this.properties.name })
+    name: function (n) {
+      this.setData({ paperSizeName: n })
     }
   }
 })

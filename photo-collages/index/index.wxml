@@ -8,7 +8,7 @@
 </view>
 
 <view class="footer" style="padding-bottom: {{safeAreaBottom||10}}px;">
-  <composing count="{{imageUrls.length}}" bindchange="composingChange" />
+  <composing name="{{paperSizeName}}" count="{{imageUrls.length}}" bindchange="composingChange" />
   <view class="btns">
     <button type="default" bindtap="addPhotos" disabled="{{imageUrls.length>=maxUploadImageCount}}">继续添加({{imageUrls.length}}/{{maxUploadImageCount}})</button>
     <button type="default" bindtap="composePhoto">去打印</button>
