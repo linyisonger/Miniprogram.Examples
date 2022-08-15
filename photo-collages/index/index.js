@@ -82,7 +82,7 @@ Page({
     this.setData({ imageUrls: this.data.imageUrls })
   },
   composingChange(e) {
-    const paperSize = e.detail.paperSize
+    const paperSize = e.detail?.paperSize ?? { w: 0, h: 0 }
     setTimeout(() => {
       wx.createSelectorQuery().select('.container').boundingClientRect().exec((res) => {
         let { windowWidth } = wx.getSystemInfoSync()
@@ -96,7 +96,7 @@ Page({
         oh = oh / windowWidth * 750;
         paperSize.w = ow;
         paperSize.h = oh;
-        this.setData({ composingArr: e.detail.composing, paperSize })
+        this.setData({ composingArr: e.detail?.composing ?? [], paperSize })
       })
     }, 0);
   },

@@ -14,7 +14,7 @@
     "lazyloadPlaceholderEnable": false,
     "preloadBackgroundData": false,
     "minified": true,
-    "autoAudits": false,
+    "autoAudits": true,
     "uglifyFileName": false,
     "uploadWithSourceMap": true,
     "enhance": true,

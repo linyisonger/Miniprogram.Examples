@@ -107,6 +107,20 @@ class V2 {
   distance(v2) {
     return Math.sqrt(Math.pow((this.x - v2.x), 2) + Math.pow((this.y - v2.y), 2))
   }
+  /**
+   * 获取角度通过向量
+   * @param {V2} v2 
+   */
+  angleByVector(v2) {
+    return Math.sign(this.multiplicationCross(v2)) * Math.acos((this.x * v2.x + this.y * v2.y) / (Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2)) * Math.sqrt(Math.pow(v2.x, 2) + Math.pow(v2.y, 2)))) * 180 / Math.PI
+  }
+  /**
+   * 叉乘
+   * @param {V2} v2 
+   */
+  multiplicationCross(v2) {
+    return this.x * v2.y - this.y * v2.x;
+  }
 }
 
 
@@ -120,7 +134,8 @@ class Photo {
   nh
   /** @type {number} 缩放比例*/
   s
-
+  /** @type {number} 旋转角度*/
+  a
   /** 
    * @param {number} x 图片x
    * @param {number} y 图片y
@@ -135,6 +150,7 @@ class Photo {
     this.nh = this.h = h;
     this.img = img;
     this.s = 1;
+    this.a = 0
   }
   /**
    * 移动
@@ -157,6 +173,13 @@ class Photo {
     this.w = this.nw * s;
     this.h = this.nh * s;
     this.s = s;
+  }
+  /**
+   * 旋转
+   * @param {number} a 
+   */
+  rotate(a) {
+    this.a = a;
   }
 }
 
@@ -197,6 +220,10 @@ Component({
     scaleSize: 0,
     /** 缩放开始的xy */
     scalePos: new V2(),
+    /** 旋转开始的位置 */
+    rotatePos: new V2(),
+    /** 旋转开始的角度 */
+    rotateAngle: 0,
     /** 画布 */
     canvas: null,
     /** 画布 */
@@ -208,15 +235,19 @@ Component({
     /** 最后操作时间 */
     lasttime: 0,
     /** 是否使用新版的canvas */
-    isNew: true
+    isNew: true,
+    /** 准备好了吗 */
+    isReady: false
   },
   lifetimes: {
     ready() {
+      this.data.isReady = true;
       this.reset();
     }
   },
   methods: {
     reset() {
+      if (!this.data.isReady) return;
       if (this.isLowerThenVersion('2.11.0')) this.setData({ isNew: false })
 
       const query = this.createSelectorQuery()
@@ -297,6 +328,8 @@ Component({
         this.data.allowMove = false
         this.data.scaleDis = this.fingerDis(touchs)
         this.data.scaleSize = photo.s;
+        this.data.rotatePos = V2.c(touchs[1]).subtract(touchs[0])
+        this.data.rotateAngle = photo.a;
       }
       else if (touchs.length === 1 && this.data.allowMove) {
         this.data.movePos = V2.c(touchs[0]).subtract(this.data.photo)
@@ -309,6 +342,7 @@ Component({
       let touchs = e.touches;
       if (touchs.length >= 2) {
         this.scaling(touchs);
+        this.rotating(touchs)
         this.render();
       }
       else if (touchs.length === 1 && this.data.allowMove) {
@@ -350,6 +384,19 @@ Component({
       photo.y = scalePos.y - photo.h / 2;
     },
     /**
+     * 旋转中
+     * @param {V2[]} v2s 
+     */
+    rotating(v2s) {
+      /** @type {Photo} */
+      const photo = this.data.photo;
+      /** @type {V2} */
+      const rotatePos = this.data.rotatePos
+      const rotateAngle = this.data.rotateAngle
+      const rotateEndAngle = V2.c(v2s[1]).subtract(v2s[0]).angleByVector(rotatePos);
+      photo.rotate(rotateAngle - rotateEndAngle);
+    },
+    /**
      * 手指距离
      * @param {V2[]} v2s  
      */
@@ -372,10 +419,16 @@ Component({
       const photo = this.data.photo;
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       if (this.data.isNew) {
-        ctx.drawImage(photo.img, photo.x, photo.y, photo.w, photo.h)
+        ctx.save();
+        ctx.translate(photo.x + photo.w / 2, photo.y + photo.h / 2)
+        ctx.rotate(photo.a * Math.PI / 180)
+        ctx.drawImage(photo.img, -photo.w / 2, -photo.h / 2, photo.w, photo.h)
+        ctx.restore();
       }
       else {
-        ctx.drawImage(this.properties.src, photo.x, photo.y, photo.w, photo.h)
+        ctx.translate(photo.x + photo.w / 2, photo.y + photo.h / 2)
+        ctx.rotate(photo.a * Math.PI / 180)
+        ctx.drawImage(this.properties.src, -photo.w / 2, -photo.h / 2, photo.w, photo.h)
         ctx.draw(false)
       }
     },
