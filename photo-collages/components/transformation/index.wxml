@@ -1,4 +1,7 @@
 <view class="abs photo"></view>
-<canvas wx:if="{{isNew}}" type="2d" id="photo" class="photo" bindtouchstart="touchstart" bindtouchmove="touchmove" bindtouchend="touchend" disable-scroll="{{true}}"></canvas>
-<canvas wx:else class="photo" canvas-id="photo" bindtouchstart="touchstart" bindtouchmove="touchmove" bindtouchend="touchend" disable-scroll="{{true}}"></canvas>
-<slot></slot>
+<canvas wx:if="{{isNew}}" type="2d" id="photo" class="photo" bindtouchstart="touchstart" bindtouchmove="touchmove" bindtouchend="touchend" disable-scroll="{{true}}">
+  <slot></slot>
+</canvas>
+<canvas wx:else class="photo" canvas-id="photo" bindtouchstart="touchstart" bindtouchmove="touchmove" bindtouchend="touchend" disable-scroll="{{true}}">
+  <slot></slot>
+</canvas>

@@ -10,8 +10,8 @@
 <view class="paper" wx:if="{{paperSize}}" style="{{format.getStyleForPaper(paperSize)}}">
   <view class="content">
     <transformation minSize=".5" maxSize="10" class="trans" wx:for="{{imageUrls}}" wx:key="unique" src="{{item}}" style="{{format.getStyleForComposing(composing[index])}}">
-      <image wx:if="{{isNew}}" src="../../images/del.jpg" class="del" catchtap="delete" data-index="{{index}}" />
-      <cover-view wx:else class="del" catchtap="delete" data-index="{{index}}">
+      <image hidden="{{!isNew}}" src="../../images/del.jpg" class="del" catchtap="delete" data-index="{{index}}" />
+      <cover-view hidden="{{isNew}}" class="del" catchtap="delete" data-index="{{index}}">
         <cover-image src="../../images/del.jpg" />
       </cover-view>
     </transformation>

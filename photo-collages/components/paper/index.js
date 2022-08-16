@@ -100,7 +100,8 @@ Component({
     }
   },
   data: {
-    isNew: true
+    isNew: true,
+    isAndroid: false
   },
   lifetimes: {
     created() {

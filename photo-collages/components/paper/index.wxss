@@ -32,7 +32,8 @@
 .del {
   position: absolute;
   right: 0;
-  top: var(--padding);
+  top: -2rpx;
+  /* top: var(--padding); */
   color: #777;
   z-index: 100;
   width: 40rpx;
