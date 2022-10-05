@@ -1,0 +1,2 @@
+<layer-image class="image" wx:if="{{src}}" src="{{src}}" minWidth="{{minWidth}}" minHeight="{{minHeight}}"></layer-image>
+<canvas id="font" type="2d" class="font" style="width: {{width}}px;height: {{height}}px;"></canvas>

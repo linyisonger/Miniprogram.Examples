@@ -1,0 +1,45 @@
+:host {
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.layer-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.image-container {
+  position: absolute;
+  pointer-events: all;
+}
+
+.image-container .image {
+  width: 100%;
+  height: 100%;
+}
+
+.image-container {
+  border: 1px dashed #f00;
+  transform-origin: center;
+  
+}
+
+.image-container .operate-delete,
+.image-container .operate-scale {
+  width: 50rpx;
+  height: 50rpx;
+  position: absolute;
+}
+
+.image-container .operate-delete {
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+}
+
+.image-container .operate-scale {
+  right: 0;
+  bottom: 0;
+  transform: translate(50%, 50%);
+}

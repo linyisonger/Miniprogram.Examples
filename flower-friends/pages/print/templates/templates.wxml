@@ -1,0 +1,25 @@
+<!--pages/print/templates/templates.wxml-->
+<view>
+    <view wx:for="{{temps}}" wx:key="index" class="list_item flxsb">
+        <view class="flxst">
+            <view class="bannerOver"></view>
+            <view class="marl32">
+                <view class="t-212 ftz30 mart24">贺卡</view>
+                <view class="t-6d768c ftz26 mart32">尺寸：175*252</view>
+                <view class="t-6d768c ftz26 mart24">2022-10-01  15:00</view>
+            </view>
+        </view>
+        <image catchtap="deleteTemp" data-index="{{index}}" src="/img/11.png" class="deleteT" />
+    </view>
+</view>
+<image src="/img/12.png" catchtap="addTemp"  class="addTemp" />
+<view  wx:if="{{setShow}}" class="fix" catchtap="hideFix">
+    <view catchtap="touchAnother" class="docContent">
+        <view class="tx-c">新建模板</view>
+        <input focus="{{true}}" bindinput="getTempName" placeholder="请输入模板名称" type="text" class="tempName ftz28" />
+        <view class="flxsb">
+            <view catchtap="hideFix" class="tempBtn t-6d768c">取消</view>
+            <view catchtap="confirmName" class="tempBtn t-main">确认</view>
+        </view>
+    </view>
+</view>

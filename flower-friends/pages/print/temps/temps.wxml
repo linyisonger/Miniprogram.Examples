@@ -1,0 +1,141 @@
+<!--pages/print/temps/temps.wxml-->
+<color-picker bindchangeColor="pickColor" initColor="{{rgb}}" show="{{pick}}" />
+<view class="tempHead flxsb">
+    <view catchtap="uodateSet" data-index="图层" hover-class="op9">图层</view>
+    <view catchtap="uodateSet" data-index="图片" hover-class="op9">添加图片</view>
+    <view catchtap="uodateSet" data-index="文字" hover-class="op9">添加文字</view>
+    <view catchtap="uodateSet" data-index="卡片" hover-class="op9">卡片设置</view>
+</view>
+<view style="width:{{paper.width}}rpx;height:{{paper.height}}rpx;margin-left:calc((100% - {{paper.width}}rpx) / 2);" class="parper">
+    <!-- <layer-background class="parper-child" bgColor="#ff0" bgImage=""></layer-background> -->
+    <layer-image class="parper-child" wx:for="{{layers}}" src="{{item.src}}" wx:key="unique"></layer-image>
+    <layer-font class="parper-child" text="12345555dasd as"></layer-font>
+    <layer-compose class="layer-compose"></layer-compose>
+</view>
+<view class="listB">
+    <view class="flxsb">
+        <view hover-class="op9" bindtap="addPhotos" hover-class="op9" class="pdl32 listB2" style="line-height:{{lineH}}rpx;height:{{lineH}}rpx;">保存</view>
+        <view hover-class="op9" bindtap="composePhoto" class="listBR1" style="line-height:{{lineH}}rpx;height:{{lineH}}rpx;">去打印</view>
+    </view>
+</view>
+<view wx:if="{{setShow}}" class="fix" catchtap="hideFix">
+    <view catchtap="touchAnother" class="docContent" style="padding-bottom:{{setTitle=='文字'?pdbottom:'300rpx'}}">
+        <view class="tx-c t-212 ftz32">{{setTitle}}设置</view>
+        <image catchtap="hideFix" src="/img/10.png" class="closeFixImg" />
+        <!-- 卡片设置 -->
+        <view wx:if="{{setTitle=='卡片'}}">
+            <view class="mart40 flxsb">
+                <view class="flxst">
+                    <view class="umh68 ftz30">宽</view>
+                    <input cursor-spacing="100" class="cardSetI marl32" type="number" value="{{paper.width}}" />
+                </view>
+                <view class="flxst">
+                    <view class="umh68 ftz30">高</view>
+                    <input cursor-spacing="100" class="cardSetI marl32" type="number" value="{{paper.height}}" />
+                </view>
+            </view>
+            <view class="flxst mart40">
+                <view class="ftz30 umh4">背景色</view>
+                <view catchtap="toPick" data-index="0" data-currentColor="{{fontSet.cardBg}}" style="background-color:{{fontSet.cardBg}}" class="bgColor marl32"></view>
+            </view>
+            <view class="flxsb mart40">
+                <view class="cardSetItem">插入背景</view>
+                <view class="cardSetItem">删除背景</view>
+                <view class="cardSetItem" bindtap="handleCardPreview">卡片预览</view>
+            </view>
+        </view>
+        <!-- 文字设置 -->
+        <view wx:if="{{setTitle=='文字'}}">
+            <view class="flxst mart40">
+                <view class="ftz30 umh68">字体</view>
+                <picker class="marl32 pstnr" bindchange="bindPickerChangeFont" value="{{index}}" range="{{fonts}}">
+                    <view class="picker">
+                        {{fontsArray[fontIndex].name}}
+                    </view>
+                    <image src="/img/9.png" class="intBottomImg" />
+                </picker>
+            </view>
+            <view class="mart40 flxsb">
+                <view class="flxst">
+                    <view class="umh68 ftz30">字号</view>
+                    <input cursor-spacing="100" value="{{fontSet.fontSize}}" class="fontSetI marl32" type="number" />
+                </view>
+                <view class="flxst">
+                    <view class="umh68 ftz30">字距</view>
+                    <input cursor-spacing="100" value="{{fontSet.letterSpace}}" class="fontSetI marl32" type="number" />
+                </view>
+                <view class="flxst">
+                    <view class="umh68 ftz30">行距</view>
+                    <input cursor-spacing="100" value="{{fontSet.lineSpace}}" class="fontSetI marl32" type="number" />
+                </view>
+            </view>
+            <view class="mart40 flxsb">
+                <view class="flxst">
+                    <view class="umh68 ftz30">对齐</view>
+                    <!-- <input value="{{fontSet.fontSize}}" style="width:234rpx;" class="fontSetI marl32" type="number" /> -->
+                    <picker class="marl32 pstnr" bindchange="bindPickerChangeFontAlign" value="{{index}}" range="{{aligns}}">
+                        <view class="pickerAlign">
+                            {{alignsArray[alignIndex].name}}
+                        </view>
+                        <image src="/img/9.png" class="intBottomImg" />
+                    </picker>
+                </view>
+                <view class="flxst">
+                    <view class="umh68 ftz30">排列</view>
+                    <picker class="marl32 pstnr" bindchange="bindPickerChangeFontArrange" value="{{index}}" range="{{arranges}}">
+                        <view class="pickerAlign">
+                            {{arrangesArray[arrangeIndex].name}}
+                        </view>
+                        <image src="/img/9.png" class="intBottomImg" />
+                    </picker>
+                </view>
+            </view>
+            <view class="mart40 flxsb">
+                <view class="flxst">
+                    <view class="umh68 ftz30">内容</view>
+                    <input cursor-spacing="100" bindinput="changeContent" value="{{fontSet.content}}" class="foContent marl32" type="text" />
+                </view>
+            </view>
+            <view class="flxst mart40">
+                <view class="ftz30 umh4">背景色</view>
+                <view catchtap="toPick" data-index="1" data-currentColor="{{fontSet.fontBg}}" style="background-color:{{fontSet.fontBg}}" class="bgColor marl32"></view>
+                <view class="ftz30 umh4 marl40">文字颜色</view>
+                <view catchtap="toPick" data-index="2" data-currentColor="{{fontSet.fontColor}}" style="background-color:{{fontSet.fontColor}}" class="bgColor marl32"></view>
+            </view>
+        </view>
+        <!-- 图层设置 -->
+        <view wx:if="{{setTitle=='图层'}}">
+            <view class="mart40 flxsb">
+                <view class="flxst">
+                    <view class="ftz30 umh68">文字</view>
+                    <view class="listContent t-6d768c ftz28">花友打印欢迎您花友打印欢迎您花友打印欢迎您花友打印欢迎您花友打印欢迎您</view>
+                </view>
+                <view class="flxst">
+                    <view class="btnItem">置顶</view>
+                    <view class="btnItem marl16">删除</view>
+                </view>
+            </view>
+            <view class="mart40 flxsb">
+                <view class="flxst">
+                    <view class="ftz30 umh68">图片</view>
+                    <image src="/img/5.png" mode="heightFix" class="paperImgSet" />
+                </view>
+                <view class="flxst">
+                    <view class="btnItem">置顶</view>
+                    <view class="btnItem marl16">删除</view>
+                </view>
+            </view>
+            <view class="mart40 flxsb">
+                <view class="flxst">
+                    <view class="ftz30 umh68">文字</view>
+                    <view class="listContent t-6d768c ftz28">花友打印欢迎您花友打印欢迎您花友打印欢迎您花友打印欢迎您花友打印欢迎您</view>
+                </view>
+                <view class="flxst">
+                    <view class="btnItem">置顶</view>
+                    <view class="btnItem marl16">删除</view>
+                </view>
+            </view>
+        </view>
+        <view wx:if="{{setTitle=='文字'}}" data-index="{{currentIndex}}" catchtap="docConfirm" class="btnConfirm">确认</view>
+    </view>
+</view>

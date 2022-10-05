@@ -1,0 +1,69 @@
+/* pages/print/templates/templates.wxss */
+page{
+    background-color:#f8f9fb;
+}
+.list_item{
+    width:686rpx;
+    background-color:#fff;
+    border-radius:15rpx;
+    box-sizing:border-box;
+    padding:32rpx;
+    margin-left:32rpx;
+    margin-top:24rpx;
+}
+.list_item:nth-child(1){
+    margin-top:40rpx;
+}
+.bannerOver{
+    width:260rpx;
+    height:184rpx;
+    box-sizing:border-box;
+    border:1rpx solid #e9e9e9;
+}
+.deleteT{
+    width:32rpx;
+    height:32rpx;
+}
+.addTemp{
+    width:100rpx;
+    height:100rpx;
+    position:fixed;
+    right:32rpx;
+    top:450rpx;
+    border-radius:100rpx;
+    box-shadow:0 0 18rpx rgb(143,151,167);
+    z-index:2;
+}
+.fix{
+    position:fixed;
+    left:0;
+    top:0;
+    width:100vw;
+    height:100vh;
+    background-color:rgba(0, 0, 0, 0.5);
+    z-index:5;
+  }
+  .docContent{
+    position: fixed;
+    top:340rpx;
+    left:70rpx;
+    background-color:#fff;
+    border-radius:15rpx;
+    padding:40rpx;
+    width:610rpx;
+    box-sizing:border-box;
+  }
+  .tempName{
+      width:100%;
+      box-sizing:border-box;
+      border-radius:15rpx;
+      padding:0 24rpx;
+      border:2rpx solid #c8cdd5;
+      height:82rpx;
+      margin-top:40rpx;
+  }
+  .tempBtn{
+      width:50%;
+      text-align:center;
+      margin-top:50rpx;
+  }

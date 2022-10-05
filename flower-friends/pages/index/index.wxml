@@ -1,0 +1,21 @@
+<view class="topContent mart24">
+    <swiper indicator-color="rgba(255,255,255,.6)" indicator-active-color="rgba(255,255,255,1)" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="1000" style='height:280rpx'>
+        <swiper-item catchtap="goToLink" data-link="{{item.link}}" style="width:100%;height:100%" wx:for="{{adv}}" wx:key="index">
+            <image mode="aspectFill" src="{{item.banner}}" class="slide-image" />
+        </swiper-item>
+    </swiper>
+</view>
+<view class="flxsb indexM">
+    <view catchtap="goItem" data-url="" class="pstnr indexClass">
+        <image src="/img/5.png" class="indexClassImg" />
+        <view class="indexClassT">文档打印</view>
+    </view>
+    <view catchtap="goItem" data-url="" class="pstnr indexClass">
+        <image src="/img/6.png" class="indexClassImg" />
+        <view class="indexClassT">图片打印</view>
+    </view>
+    <view catchtap="goItem" data-url="/pages/print/templates/templates" class="pstnr indexClass">
+        <image src="/img/7.png" class="indexClassImg" />
+        <view class="indexClassT">模板打印</view>
+    </view>
+</view>

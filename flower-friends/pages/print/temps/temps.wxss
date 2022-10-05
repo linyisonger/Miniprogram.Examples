@@ -1,0 +1,239 @@
+/* pages/print/temps/temps.wxss */
+page {
+    background-color: #f8f9fb;
+}
+
+.tempHead {
+    height: 80rpx;
+    line-height: 80rpx;
+    padding: 0 32rpx;
+    box-sizing: border-box;
+    width: 686rpx;
+    margin-left: 32rpx;
+    background-color: #fff;
+    font-size: 30rpx;
+    margin-top: 40rpx;
+    border-radius: 15rpx;
+}
+
+.parper {
+    background-color: #fff;
+    box-shadow: 0 0 10rpx #eff1f5;
+    margin-top: 32rpx;
+    position: relative;
+
+}
+
+.parper-child,
+.layer-compose {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    right: 0;
+}
+
+.listB {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    height: auto;
+}
+
+.listB2 {
+    height: 60rpx;
+    line-height: 60rpx;
+    width: 50%;
+    background-color: #f1f1f1;
+    text-align: center;
+    color: #666;
+}
+
+.listBR1 {
+    font-weight: bolder;
+    width: 50%;
+    height: 60rpx;
+    line-height: 60rpx;
+    background-color: #4f9ff6;
+    text-align: center;
+    color: #fff;
+    font-size: 32rpx;
+}
+
+.fix {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 5;
+}
+
+.docContent {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: #fff;
+    border-radius: 15rpx 15rpx 0 0;
+    padding: 40rpx 32rpx;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.closeFixImg {
+    position: absolute;
+    right: 32rpx;
+    top: 36rpx;
+    width: 40rpx;
+    height: 40rpx;
+}
+
+.btnConfirm {
+    width: 100%;
+    height: 100rpx;
+    text-align: center;
+    line-height: 100rpx;
+    background-color: #4f9ff6;
+    border-radius: 20rpx;
+    color: #fff;
+    font-size: 30rpx;
+    margin-top: 60rpx;
+}
+
+.cardSetI {
+    width: 264rpx;
+    height: 68rpx;
+    background-color: #f8f9fb;
+    border-radius: 15rpx;
+    box-sizing: border-box;
+    padding-left: 24rpx;
+    font-size: 30rpx;
+}
+
+.bgColor {
+    width: 40rpx;
+    height: 40rpx;
+    border-radius: 40rpx;
+    border: 2rpx dashed #c8cdd5;
+    box-sizing: border-box;
+}
+
+.cardSetItem {
+    width: 202rpx;
+    height: 68rpx;
+    border: 2rpx solid #4f9ff6;
+    box-sizing: border-box;
+    text-align: center;
+    line-height: 68rpx;
+    font-size: 30rpx;
+    color: #4f9ff6;
+    border-radius: 20rpx;
+}
+
+.picker {
+    background-color: #f8f9fb;
+    width: calc(100vw - 64rpx - 32rpx - 60rpx);
+    box-sizing: border-box;
+    border-radius: 15rpx;
+    line-height: 68rpx;
+    height: 68rpx;
+    padding-left: 32rpx;
+    font-size: 30rpx;
+}
+
+.pickerAlign {
+    background-color: #f8f9fb;
+    width: calc((100vw - 64rpx - 64rpx - 120rpx - 32rpx) / 2);
+    box-sizing: border-box;
+    border-radius: 15rpx;
+    line-height: 68rpx;
+    height: 68rpx;
+    padding-left: 32rpx;
+    font-size: 30rpx;
+}
+
+.intBottomImg {
+    position: absolute;
+    right: 32rpx;
+    top: 30rpx;
+    width: 24rpx;
+    height: 13rpx;
+}
+
+.fontSetI {
+    width: 112rpx;
+    height: 68rpx;
+    background-color: #f8f9fb;
+    border-radius: 15rpx;
+    box-sizing: border-box;
+    padding-left: 24rpx;
+    font-size: 30rpx;
+}
+
+.foContent {
+    background-color: #f8f9fb;
+    width: calc(100vw - 64rpx - 32rpx - 60rpx);
+    box-sizing: border-box;
+    border-radius: 15rpx;
+    line-height: 68rpx;
+    height: 68rpx;
+    padding: 0 32rpx;
+    font-size: 30rpx;
+}
+
+.btnItem {
+    width: 100rpx;
+    height: 68rpx;
+    border: 2rpx solid #4f9ff6;
+    box-sizing: border-box;
+    text-align: center;
+    line-height: 68rpx;
+    font-size: 30rpx;
+    color: #4f9ff6;
+    border-radius: 20rpx;
+}
+
+.listContent {
+    width: calc(100vw - 64rpx - 220rpx - 60rpx - 32rpx - 32rpx);
+    margin-left: 32rpx;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    line-height: 68rpx;
+}
+
+.paperImgSet {
+    height: 68rpx;
+    margin-left: 32rpx;
+}
+
+
+/* 分割 */
+.color-block {
+    width: 400rpx;
+    height: 200rpx;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 200rpx;
+    color: white;
+}
+
+.page__hd {
+    padding: 40px;
+}
+
+.page__title {
+    text-align: left;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.page__desc {
+    margin-top: 5px;
+    color: rgba(0, 0, 0, 0.5);
+    text-align: left;
+    font-size: 14px;
+}

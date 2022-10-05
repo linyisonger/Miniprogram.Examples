@@ -1,0 +1,35 @@
+{
+    "pages": [
+        "pages/index/index",
+        "pages/user/user",
+        "pages/print/templates/templates",
+        "pages/print/temps/temps"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTextStyle": "black",
+        "backgroundColor": "#ffffff"
+    },
+    "tabBar": {
+        "color": "#afb1b5",
+        "selectedColor": "#4f9ff6",
+        "borderStyle": "black",
+        "list": [
+            {
+                "selectedIconPath": "img/1.png",
+                "iconPath": "img/2.png",
+                "pagePath": "pages/index/index",
+                "text": "首页"
+            },
+            {
+                "selectedIconPath": "img/3.png",
+                "iconPath": "img/4.png",
+                "pagePath": "pages/user/user",
+                "text": "我的"
+            }
+        ]
+    },
+    "style": "v2",
+    "sitemapLocation": "sitemap.json"
+}
