@@ -29,6 +29,7 @@
   width: 50rpx;
   height: 50rpx;
   position: absolute;
+  z-index: 1;
 }
 
 .image-container.operate .operate-delete {

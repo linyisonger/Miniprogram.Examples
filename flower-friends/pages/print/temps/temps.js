@@ -22,7 +22,6 @@ Page({
             fontBg: 'rgb(255,255,255)',
             fontColor: 'rgb(0,0,0)'
         },
-        arranges: ['水平', '垂直'],
         arrangesArray: [{
             'name': '水平',
             'align': 'horizontal'
@@ -33,7 +32,6 @@ Page({
         }
         ],
         arrangeIndex: 0,
-        aligns: ['左对齐', '居中', '右对齐'],
         alignsArray: [{
             'name': '左对齐',
             'align': 'left'
@@ -48,7 +46,6 @@ Page({
         }
         ],
         alignIndex: 0,
-        fonts: ['秋日纷至沓来', '银河微微光亮'],
         fontIndex: 0,
         fontsArray: [{
             'id': 0,
@@ -70,26 +67,8 @@ Page({
         layers: [
             {
                 type: "background",
-                bgColor: '#ddd',
+                bgColor: '#fff',
                 bgImage: ''
-            },
-            {
-                type: 'font',
-                text: '啊啊啊aaaa',
-                fontSize: 16,
-                fontColor: 'rgba(234,0,0,1)',
-                arrange: ArrangeType.vertical,
-                letterSpace: 0,
-                lineSpace: 10,
-            },
-            {
-                type: 'font',
-                text: 'bbbb啊啊啊',
-                fontSize: 16,
-                fontColor: 'rgba(234,0,0,1)',
-                arrange: ArrangeType.horizontal,
-                letterSpace: 10,
-                lineSpace: 0,
             }
         ],
         operateLayerIndex: -1,
@@ -132,21 +111,19 @@ Page({
                 break;
         }
     },
-    uodateSet(e) {
-        var index = e.currentTarget.dataset.index;
-        if (index != '图片') {
-            this.setData({
-                setTitle: index,
-                setShow: true
-            })
-        } else {
-            this.chooseStyle()
+    async handleTabClick(e) {
+        const { index } = e.currentTarget.dataset;
+        switch (index) {
+            case '图片':
+                chooseImage(1)
+                break;
+            default:
+                this.setData({ setTitle: index, setShow: true })
+                break;
         }
     },
     hideFix() {
-        this.setData({
-            setShow: false
-        })
+        this.setData({ setShow: false })
     },
     touchAnother() {
         // 阻止冒泡
@@ -172,10 +149,17 @@ Page({
             ['fontSet.arrange']: this.data.arrangesArray[e.detail.value].arrange
         })
     },
-    changeContent(e) {
-        this.setData({
-            ['fontSet.content']: e.detail.value
-        })
+    handleContentInput(e) {
+        this.setData({ ['fontSet.content']: e.detail.value })
+    },
+    handleFontSizeInput(e) {
+        this.setData({ ['fontSet.fontSize']: e.detail.value })
+    },
+    handleLetterSpaceInput(e) {
+        this.setData({ ['fontSet.letterSpace']: e.detail.value })
+    },
+    handleLineSpaceInput(e) {
+        this.setData({ ['fontSet.lineSpace']: e.detail.value })
     },
     //选择照片方式
     chooseStyle() {
@@ -267,12 +251,35 @@ Page({
     handleSaveLayers(e) {
         wx.setStorageSync('layers', this.data.layers)
     },
-    doneConfirm() {
-        let layer = new Layer()
-        const { fontsArray, fontIndex, fontSet, alignsArray, alignIndex, arrangesArray, arrangeIndex } = this.data;
+    handleDoubleTapLayer(e) {
+        const { index } = e.currentTarget.dataset
+        const { layers, fontsArray, alignsArray, arrangesArray } = this.data;
+        const layer = layers[index];
 
+        const fontIndex = fontsArray.findIndex(a => a.font === layer.fontFamily)
+        const alignIndex = alignsArray.findIndex(a => a.align === layer.fontAlign)
+        const arrangeIndex = arrangesArray.findIndex(a => a.align === layer.arrange)
+
+        this.setData({
+            setShow: true,
+            setTitle: "文字",
+            ['fontSet.fontSize']: layer.fontSize,
+            ['fontSet.lineSpace']: layer.lineSpace,
+            ['fontSet.letterSpace']: layer.letterSpace,
+            ['fontSet.fontBg']: layer.bgColor,
+            ['fontSet.fontColor']: layer.fontColor,
+            ['fontSet.content']: layer.text,
+        })
+        this.bindPickerChangeFont({ detail: { value: fontIndex } })
+        this.bindPickerChangeFontAlign({ detail: { value: alignIndex } })
+        this.bindPickerChangeFontArrange({ detail: { value: arrangeIndex } })
+    },
+    doneConfirm() {
+        const { layers, fontsArray, fontIndex, fontSet, alignsArray, alignIndex, arrangesArray, arrangeIndex, operateLayerIndex } = this.data;
+        let layerIndex = operateLayerIndex > -1 ? operateLayerIndex : layers.length
+        let layer = layers[operateLayerIndex] ?? new Layer()
         layer.type = 'font';
-        layer.family = fontsArray[fontIndex].font
+        layer.fontFamily = fontsArray[fontIndex].font
         layer.fontSize = fontSet.fontSize
         layer.lineSpace = fontSet.lineSpace
         layer.letterSpace = fontSet.letterSpace
@@ -283,8 +290,9 @@ Page({
         layer.fontAlign = alignsArray[alignIndex].align
 
         this.setData({
-            [`layers[${this.data.layers.length}]`]: layer,
-            operateLayerIndex: this.data.layers.length
+            [`layers[${layerIndex}]`]: layer,
+            operateLayerIndex: layerIndex,
+            setShow: false
         })
     },
     handleIsTopLayer(e) {
@@ -305,6 +313,7 @@ Page({
         })
     },
     handleDeleteBgImage() {
+        let { layers } = this.data
         layers[0].bgImage = ''
         this.setData({
             [`layers[0]`]: layers[0],

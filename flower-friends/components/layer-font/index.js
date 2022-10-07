@@ -224,6 +224,9 @@ Component({
         },
         handleOperate(e) {
             this.triggerEvent('operate')
+        },
+        doubletap() {
+            this.triggerEvent('doubletap')
         }
     },
     observers: {

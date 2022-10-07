@@ -39,7 +39,7 @@ Component({
             const { width: canvasWidth, height: canvasHeight } = canvas;
             ctx.clearRect(0, 0, canvasWidth, canvasHeight)
             for (let i = 0; i < layers.length; i++) {
-                let { src, left, top, width, height, angle, type, bgColor } = layers[i]
+                let { src, left = 0, top = 0, width = canvasWidth, height = canvasHeight, angle = 0, type, bgColor } = layers[i]
                 if (src) {
                     let image = await createImage(canvas, src)
                     ctx.translate(left + width / 2, top + height / 2)

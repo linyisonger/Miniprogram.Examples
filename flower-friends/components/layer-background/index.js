@@ -1,4 +1,4 @@
-import { createImage } from '../layer/index'
+import { base64ToTempFilePath, createImage } from '../layer/index'
 
 // 背景层
 Component({
@@ -68,11 +68,18 @@ Component({
                 ctx.fillStyle = bgColor
                 ctx.fillRect(0, 0, width, height)
             }
+            this.setData({
+                src: await base64ToTempFilePath(canvas.toDataURL('image/jpeg', 1))
+            })
         },
         value() {
+            const { bgColor, bgImage, layerWidth, layerHeight } = this.data
+
             return {
-                bgColor: this.data.bgColor,
-                src: this.data.bgImage,
+                bgColor: bgColor,
+                src: bgImage,
+                width: layerWidth,
+                height: layerHeight,
                 type: 'background'
             }
         }
