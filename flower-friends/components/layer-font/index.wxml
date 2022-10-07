@@ -1,2 +1,2 @@
-<layer-image class="image" wx:if="{{src}}" src="{{src}}" minWidth="{{minWidth}}" minHeight="{{minHeight}}"></layer-image>
-<canvas id="font" type="2d" class="font" style="width: {{width}}px;height: {{height}}px;"></canvas>
+<layer-image operate="{{operate}}"  bind:operate="handleOperate" bind:change="handleChange" class="image" init="{{init}}" wx:if="{{src}}" src="{{src}}" minWidth="{{minWidth}}" minHeight="{{minHeight}}" bind:remove="remove"></layer-image>
+<canvas id="font" type="2d" class="font" style="width: {{canvasWidth}}px;height: {{canvasHeight}}px;"></canvas>

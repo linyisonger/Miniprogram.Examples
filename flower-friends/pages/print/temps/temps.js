@@ -1,3 +1,4 @@
+import { ArrangeType, chooseImage, Layer } from "../../../components/layer/index";
 
 Page({
     /**
@@ -47,48 +48,75 @@ Page({
         }
         ],
         alignIndex: 0,
-        fonts: ['方正仿宋简体', '站酷快乐体', '思源黑体-常规'],
+        fonts: ['秋日纷至沓来', '银河微微光亮'],
         fontIndex: 0,
         fontsArray: [{
             'id': 0,
-            'name': '方正仿宋简体',
-            'font': 'Fz'
+            'name': '秋日纷至沓来',
+            'font': 'qiuri'
         },
         {
             'id': 1,
-            'name': '站酷快乐体',
-            'font': 'Zk'
+            'name': '银河微微光亮',
+            'font': 'yinhe'
         },
-        {
-            'id': 2,
-            'name': '思源黑体-常规',
-            'font': 'Sy'
-        }
         ],
         setTitle: '卡片',
         setShow: false,
         rgb: 'rgb(0,154,97)', //初始值
         pick: false,
         chooseColorIndex: 0,
-        layers: []
+        /** @type {Layer[]} */
+        layers: [
+            {
+                type: "background",
+                bgColor: '#ddd',
+                bgImage: ''
+            },
+            {
+                type: 'font',
+                text: '啊啊啊aaaa',
+                fontSize: 16,
+                fontColor: 'rgba(234,0,0,1)',
+                arrange: ArrangeType.vertical,
+                letterSpace: 0,
+                lineSpace: 10,
+            },
+            {
+                type: 'font',
+                text: 'bbbb啊啊啊',
+                fontSize: 16,
+                fontColor: 'rgba(234,0,0,1)',
+                arrange: ArrangeType.horizontal,
+                letterSpace: 10,
+                lineSpace: 0,
+            }
+        ],
+        operateLayerIndex: -1,
+        isRender: false
     },
     // 显示取色器
     toPick(e) {
         console.log(e)
         var index = e.currentTarget.dataset.index;
         var currentcolor = e.currentTarget.dataset.currentcolor;
+
         this.setData({
             chooseColorIndex: index,
             rgb: currentcolor,
-            pick: true
+            pick: true,
         })
     },
     //取色结果回调
     pickColor(e) {
         let rgb = e.detail.color;
+        let { layers } = this.data
+
         switch (this.data.chooseColorIndex) {
             case '0':
+                layers[0].bgColor = rgb;
                 this.setData({
+                    [`layers[0]`]: layers[0],
                     ['fontSet.cardBg']: rgb
                 })
                 break;
@@ -200,8 +228,10 @@ Page({
                     console.log(res);
                     this.setData({
                         [`layers[${this.data.layers.length}]`]: {
-                            src: res.tempFiles[0].tempFilePath
-                        }
+                            type: 'image',
+                            src: res.tempFiles[0].tempFilePath,
+                        },
+                        operateLayerIndex: this.data.layers.length
                     })
                 }
             })
@@ -214,6 +244,70 @@ Page({
             fail: (err) => {
                 console.log(err);
             }
+        })
+    },
+    handleRemoveLayer(e) {
+        const { index } = e.currentTarget.dataset
+        this.setData({ isRender: true })
+        this.data.layers.splice(index, 1)
+        this.setData({ layers: this.data.layers, isRender: false })
+    },
+    handleChangeLayer(e) {
+        console.log(e);
+        const { index } = e.currentTarget.dataset
+        const layer = this.data.layers[index];
+        this.setData({ [`layers[${index}]`]: { ...layer, ...e.detail } })
+        console.log(this.data.layers);
+    },
+    handleOperateLayer(e) {
+        const { index } = e.currentTarget.dataset
+        console.log(e);
+        this.setData({ operateLayerIndex: index })
+    },
+    handleSaveLayers(e) {
+        wx.setStorageSync('layers', this.data.layers)
+    },
+    doneConfirm() {
+        let layer = new Layer()
+        const { fontsArray, fontIndex, fontSet, alignsArray, alignIndex, arrangesArray, arrangeIndex } = this.data;
+
+        layer.type = 'font';
+        layer.family = fontsArray[fontIndex].font
+        layer.fontSize = fontSet.fontSize
+        layer.lineSpace = fontSet.lineSpace
+        layer.letterSpace = fontSet.letterSpace
+        layer.bgColor = fontSet.fontBg;
+        layer.fontColor = fontSet.fontColor
+        layer.text = fontSet.content;
+        layer.arrange = arrangesArray[arrangeIndex].align
+        layer.fontAlign = alignsArray[alignIndex].align
+
+        this.setData({
+            [`layers[${this.data.layers.length}]`]: layer,
+            operateLayerIndex: this.data.layers.length
+        })
+    },
+    handleIsTopLayer(e) {
+        const { index } = e.currentTarget.dataset
+        this.setData({ isRender: true })
+        const layer = this.data.layers.splice(index, 1)
+        const layers = [...this.data.layers, ...layer]
+        console.log(layer);
+        this.setData({ layers, isRender: false, operateLayerIndex: layers.length - 1 })
+    },
+    async handleInsetBgImage() {
+        const paths = await chooseImage(1)
+        let { layers } = this.data
+        if (!paths.length > 0) return;
+        layers[0].bgImage = paths[0]
+        this.setData({
+            [`layers[0]`]: layers[0],
+        })
+    },
+    handleDeleteBgImage() {
+        layers[0].bgImage = ''
+        this.setData({
+            [`layers[0]`]: layers[0],
         })
     },
     /**
@@ -239,6 +333,8 @@ Page({
                 }
             },
         })
+        // const layers = wx.getStorageSync('layers') || []
+        // this.setData({ layers })
     },
 
     /**

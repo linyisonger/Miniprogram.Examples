@@ -6,15 +6,19 @@
     <view catchtap="uodateSet" data-index="文字" hover-class="op9">添加文字</view>
     <view catchtap="uodateSet" data-index="卡片" hover-class="op9">卡片设置</view>
 </view>
-<view style="width:{{paper.width}}rpx;height:{{paper.height}}rpx;margin-left:calc((100% - {{paper.width}}rpx) / 2);" class="parper">
-    <!-- <layer-background class="parper-child" bgColor="#ff0" bgImage=""></layer-background> -->
-    <layer-image class="parper-child" wx:for="{{layers}}" src="{{item.src}}" wx:key="unique"></layer-image>
-    <layer-font class="parper-child" text="12345555dasd as"></layer-font>
+<view bind:tap="handleOperateLayer" data-index="-1" style="width:{{paper.width}}rpx;height:{{paper.height}}rpx;margin-left:calc((100% - {{paper.width}}rpx) / 2);" class="parper">
+    <block wx:if="{{!isRender}}">
+        <block wx:for="{{layers}}" wx:key="unique">
+            <layer-background wx:if="{{item.type === 'background'}}" class="parper-child" bgColor="{{item.bgColor}}" bgImage="{{item.bgImage}}"></layer-background>
+            <layer-image init="{{item}}" bind:operate="handleOperateLayer" operate="{{index===operateLayerIndex}}" wx:if="{{item.type === 'image'}}" class="parper-child" bind:change="handleChangeLayer" bind:remove="handleRemoveLayer" data-index="{{index}}" src="{{item.src}}"></layer-image>
+            <layer-font init="{{item}}" bind:operate="handleOperateLayer" operate="{{index===operateLayerIndex}}" wx:if="{{item.type === 'font'}}" class="parper-child" bind:change="handleChangeLayer" bind:remove="handleRemoveLayer" data-index="{{index}}" fontFamily="{{item.family}}" fontAlign="{{item.fontAlign}}" text="{{item.text}}" fontSize="{{item.fontSize}}" fontColor="{{item.fontColor}}" bgColor="{{item.bgColor}}" arrange="{{item.arrange}}" lineSpace="{{item.lineSpace}}" letterSpace="{{item.letterSpace}}"></layer-font>
+        </block>
+    </block>
     <layer-compose class="layer-compose"></layer-compose>
 </view>
 <view class="listB">
     <view class="flxsb">
-        <view hover-class="op9" bindtap="addPhotos" hover-class="op9" class="pdl32 listB2" style="line-height:{{lineH}}rpx;height:{{lineH}}rpx;">保存</view>
+        <view hover-class="op9" bindtap="handleSaveLayers" hover-class="op9" class="pdl32 listB2" style="line-height:{{lineH}}rpx;height:{{lineH}}rpx;">保存</view>
         <view hover-class="op9" bindtap="composePhoto" class="listBR1" style="line-height:{{lineH}}rpx;height:{{lineH}}rpx;">去打印</view>
     </view>
 </view>
@@ -39,8 +43,8 @@
                 <view catchtap="toPick" data-index="0" data-currentColor="{{fontSet.cardBg}}" style="background-color:{{fontSet.cardBg}}" class="bgColor marl32"></view>
             </view>
             <view class="flxsb mart40">
-                <view class="cardSetItem">插入背景</view>
-                <view class="cardSetItem">删除背景</view>
+                <view class="cardSetItem" bindtap="handleInsetBgImage">插入背景</view>
+                <view class="cardSetItem" bindtap="handleDeleteBgImage">删除背景</view>
                 <view class="cardSetItem" bindtap="handleCardPreview">卡片预览</view>
             </view>
         </view>
@@ -105,37 +109,27 @@
         </view>
         <!-- 图层设置 -->
         <view wx:if="{{setTitle=='图层'}}">
-            <view class="mart40 flxsb">
-                <view class="flxst">
-                    <view class="ftz30 umh68">文字</view>
-                    <view class="listContent t-6d768c ftz28">花友打印欢迎您花友打印欢迎您花友打印欢迎您花友打印欢迎您花友打印欢迎您</view>
+            <block wx:for="{{layers}}" wx:key="unique">
+                <view class="mart40 flxsb" wx:if="{{item.type !== 'background'}}">
+                    <block wx:if="{{item.type === 'font'}}">
+                        <view class="flxst">
+                            <view class="ftz30 umh68">文字</view>
+                            <view class="listContent t-6d768c ftz28">{{item.text}}</view>
+                        </view>
+                    </block>
+                    <block wx:if="{{item.type === 'image'}}">
+                        <view class="flxst">
+                            <view class="ftz30 umh68">图片</view>
+                            <image src="{{item.src}}" mode="heightFix" class="paperImgSet" />
+                        </view>
+                    </block>
+                    <view class="flxst">
+                        <view class="btnItem" bindtap="handleIsTopLayer" data-index="{{index}}">置顶</view>
+                        <view class="btnItem marl16" bindtap="handleRemoveLayer" data-index="{{index}}">删除</view>
+                    </view>
                 </view>
-                <view class="flxst">
-                    <view class="btnItem">置顶</view>
-                    <view class="btnItem marl16">删除</view>
-                </view>
-            </view>
-            <view class="mart40 flxsb">
-                <view class="flxst">
-                    <view class="ftz30 umh68">图片</view>
-                    <image src="/img/5.png" mode="heightFix" class="paperImgSet" />
-                </view>
-                <view class="flxst">
-                    <view class="btnItem">置顶</view>
-                    <view class="btnItem marl16">删除</view>
-                </view>
-            </view>
-            <view class="mart40 flxsb">
-                <view class="flxst">
-                    <view class="ftz30 umh68">文字</view>
-                    <view class="listContent t-6d768c ftz28">花友打印欢迎您花友打印欢迎您花友打印欢迎您花友打印欢迎您花友打印欢迎您</view>
-                </view>
-                <view class="flxst">
-                    <view class="btnItem">置顶</view>
-                    <view class="btnItem marl16">删除</view>
-                </view>
-            </view>
+            </block>
         </view>
-        <view wx:if="{{setTitle=='文字'}}" data-index="{{currentIndex}}" catchtap="docConfirm" class="btnConfirm">确认</view>
+        <view wx:if="{{setTitle=='文字'}}" data-index="{{currentIndex}}" catchtap="doneConfirm" class="btnConfirm">确认</view>
     </view>
 </view>

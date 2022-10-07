@@ -16,11 +16,11 @@ Component({
             const query = this.createSelectorQuery()
             query.select('#compose').fields({ node: true, size: true })
             query.exec((res) => {
-                const canvas = res[0].node
+                const [{ node: canvas, width, height }] = res
                 const ctx = canvas.getContext('2d')
                 const dpr = wx.getSystemInfoSync().pixelRatio
-                canvas.width = res[0].width * dpr
-                canvas.height = res[0].height * dpr
+                canvas.width = width * dpr
+                canvas.height = height * dpr
                 ctx.scale(dpr, dpr)
                 this.data.canvas = canvas;
                 this.data.ctx = ctx;
@@ -39,15 +39,21 @@ Component({
             const { width: canvasWidth, height: canvasHeight } = canvas;
             ctx.clearRect(0, 0, canvasWidth, canvasHeight)
             for (let i = 0; i < layers.length; i++) {
-                let { src, left, top, width, height, angle } = layers[i]
-                let image = await createImage(canvas, src)
-                ctx.translate(left + width / 2, top + height / 2)
-                ctx.rotate(angle / 180 * Math.PI)
-                ctx.save();
-                ctx.drawImage(image, -width / 2, -height / 2, width, height);
-                ctx.restore();
-                ctx.rotate(-angle / 180 * Math.PI);
-                ctx.translate(-(left + width / 2), -(top + height / 2))
+                let { src, left, top, width, height, angle, type, bgColor } = layers[i]
+                if (src) {
+                    let image = await createImage(canvas, src)
+                    ctx.translate(left + width / 2, top + height / 2)
+                    ctx.rotate(angle / 180 * Math.PI)
+                    ctx.save();
+                    ctx.drawImage(image, -width / 2, -height / 2, width, height);
+                    ctx.restore();
+                    ctx.rotate(-angle / 180 * Math.PI);
+                    ctx.translate(-(left + width / 2), -(top + height / 2))
+                }
+                else {
+                    ctx.fillStyle = bgColor
+                    ctx.fillRect(0, 0, canvasWidth, canvasHeight)
+                }
             }
             let base64 = canvas.toDataURL()
             return { base64, tempPath: await base64ToTempFilePath(base64) }

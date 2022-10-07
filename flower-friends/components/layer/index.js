@@ -1,15 +1,23 @@
-import { Layer } from './layer'
+import { Layer, ArrangeType, AlignType } from './layer'
 import { V2 } from './v2'
 import {
-  createImage,
-  base64ToTempFilePath,
-  getImageInfo
+    createImage,
+    base64ToTempFilePath,
+    getImageInfo,
+    contain,
+    loadFontFace,
+    chooseImage
 } from './utils'
 
 export {
-  V2,
-  Layer,
-  createImage,
-  base64ToTempFilePath,
-  getImageInfo
+    V2,
+    Layer,
+    ArrangeType,
+    AlignType,
+    createImage,
+    base64ToTempFilePath,
+    getImageInfo,
+    contain,
+    loadFontFace,
+    chooseImage
 }

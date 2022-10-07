@@ -19,26 +19,25 @@
   height: 100%;
 }
 
-.image-container {
+.image-container.operate {
   border: 1px dashed #f00;
   transform-origin: center;
-  
 }
 
-.image-container .operate-delete,
-.image-container .operate-scale {
+.image-container.operate .operate-delete,
+.image-container.operate .operate-scale {
   width: 50rpx;
   height: 50rpx;
   position: absolute;
 }
 
-.image-container .operate-delete {
+.image-container.operate .operate-delete {
   left: 0;
   top: 0;
   transform: translate(-50%, -50%);
 }
 
-.image-container .operate-scale {
+.image-container.operate .operate-scale {
   right: 0;
   bottom: 0;
   transform: translate(50%, 50%);
