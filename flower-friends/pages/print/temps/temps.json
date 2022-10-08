@@ -4,6 +4,7 @@
         "layer-background": "/components/layer-background/index",
         "layer-image": "/components/layer-image/index",
         "layer-font": "/components/layer-font/index",
+        "layer-mul-font": "/components/layer-mul-font/index",
         "layer-compose": "/components/layer-compose/index"
     },
     "disableScroll": true,

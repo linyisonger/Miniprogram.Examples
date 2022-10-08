@@ -6,7 +6,8 @@ import {
     getImageInfo,
     contain,
     loadFontFace,
-    chooseImage
+    chooseImage,
+    measureOneLineText
 } from './utils'
 
 export {
@@ -19,5 +20,6 @@ export {
     getImageInfo,
     contain,
     loadFontFace,
-    chooseImage
+    chooseImage,
+    measureOneLineText
 }

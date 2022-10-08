@@ -10,7 +10,7 @@
         <block wx:for="{{layers}}" wx:key="unique">
             <layer-background wx:if="{{item.type === 'background'}}" class="parper-child" bgColor="{{item.bgColor}}" bgImage="{{item.bgImage}}"></layer-background>
             <layer-image init="{{item}}" bind:operate="handleOperateLayer" operate="{{index===operateLayerIndex}}" wx:if="{{item.type === 'image'}}" class="parper-child" bind:change="handleChangeLayer" bind:remove="handleRemoveLayer" data-index="{{index}}" src="{{item.src}}"></layer-image>
-            <layer-font init="{{item}}" bind:doubletap="handleDoubleTapLayer" bind:operate="handleOperateLayer" operate="{{index===operateLayerIndex}}" wx:if="{{item.type === 'font'}}" class="parper-child" bind:change="handleChangeLayer" bind:remove="handleRemoveLayer" data-index="{{index}}" fontFamily="{{item.fontFamily}}" fontAlign="{{item.fontAlign}}" text="{{item.text}}" fontSize="{{item.fontSize}}" fontColor="{{item.fontColor}}" bgColor="{{item.bgColor}}" arrange="{{item.arrange}}" lineSpace="{{item.lineSpace}}" letterSpace="{{item.letterSpace}}"></layer-font>
+            <layer-mul-font init="{{item}}" bind:doubletap="handleDoubleTapLayer" bind:operate="handleOperateLayer" operate="{{index===operateLayerIndex}}" wx:if="{{item.type === 'font'}}" class="parper-child" bind:change="handleChangeLayer" bind:remove="handleRemoveLayer" data-index="{{index}}" fontFamily="{{item.fontFamily}}" fontAlign="{{item.fontAlign}}" text="{{item.text}}" fontSize="{{item.fontSize}}" fontColor="{{item.fontColor}}" bgColor="{{item.bgColor}}" arrange="{{item.arrange}}" lineSpace="{{item.lineSpace}}" letterSpace="{{item.letterSpace}}" />
         </block>
     </block>
     <layer-compose class="layer-compose"></layer-compose>
