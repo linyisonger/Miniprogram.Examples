@@ -198,14 +198,14 @@ Page({
     },
     handlePaperWidthInput(e) {
         this.data.paper = {
-            width: e.detail.value,
+            width: +e.detail.value,
             height: this.data.paper.height
         }
     },
     handlePaperHeightInput(e) {
         this.data.paper = {
             width: this.data.paper.width,
-            height: e.detail.value,
+            height: +e.detail.value,
         }
     },
     //选择照片方式
