@@ -47,8 +47,8 @@
     bottom: 0;
     transform: translate(50%, 50%);
 }
-.font{
-  position: absolute;
-  /* top: -1000px; */
-  top: 0;
+
+.font {
+    position: absolute;
+    top: -1000px;
 }

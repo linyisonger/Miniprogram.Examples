@@ -1,6 +1,37 @@
 /* pages/print/temps/temps.wxss */
 page {
     background-color: #f8f9fb;
+    height: 100vh;
+}
+
+.page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.paper-container {
+    flex: 1;
+    display: flex;
+    margin: 32rpx;
+}
+
+.alpha-button {
+    width: 40rpx;
+    height: 40rpx;
+    border-radius: 40rpx;
+    border: 2rpx dashed #c8cdd5;
+    box-sizing: border-box;
+    margin-left: 10px;
+}
+
+.alpha-button.active {
+    border: 2rpx solid #4f9ff6;
+}
+
+.alpha-button image {
+    width: 100%;
+    height: 100%;
 }
 
 .tempHead {
@@ -9,7 +40,6 @@ page {
     padding: 0 32rpx;
     box-sizing: border-box;
     width: 686rpx;
-    margin-left: 32rpx;
     background-color: #fff;
     font-size: 30rpx;
     margin-top: 40rpx;
@@ -19,9 +49,7 @@ page {
 .parper {
     background-color: #fff;
     box-shadow: 0 0 10rpx #eff1f5;
-    margin-top: 32rpx;
     position: relative;
-
 }
 
 .parper-child,
@@ -119,6 +147,10 @@ page {
     border-radius: 40rpx;
     border: 2rpx dashed #c8cdd5;
     box-sizing: border-box;
+}
+
+.bgColor.active {
+    border: 2rpx solid #4f9ff6;
 }
 
 .cardSetItem {

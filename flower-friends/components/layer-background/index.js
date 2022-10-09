@@ -1,4 +1,4 @@
-import { base64ToTempFilePath, createImage } from '../layer/index'
+import { base64ToTempFilePath, createImage, Transparent } from '../layer/index'
 
 // 背景层
 Component({
@@ -69,7 +69,7 @@ Component({
                 ctx.fillRect(0, 0, width, height)
             }
             this.setData({
-                src: await base64ToTempFilePath(canvas.toDataURL('image/jpeg', 1))
+                src: bgColor != Transparent ? await base64ToTempFilePath(canvas.toDataURL('image/jpeg', 1)) : ''
             })
         },
         value() {
