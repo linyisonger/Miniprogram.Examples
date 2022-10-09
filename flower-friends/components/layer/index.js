@@ -7,7 +7,8 @@ import {
     contain,
     loadFontFace,
     chooseImage,
-    measureOneLineText
+    measureOneRowText,
+    measureOneColumnText
 } from './utils'
 
 export {
@@ -21,5 +22,6 @@ export {
     contain,
     loadFontFace,
     chooseImage,
-    measureOneLineText
+    measureOneRowText,
+    measureOneColumnText
 }

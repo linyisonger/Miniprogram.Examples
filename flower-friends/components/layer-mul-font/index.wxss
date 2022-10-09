@@ -49,6 +49,6 @@
 }
 .font{
   position: absolute;
-  top: -1000px;
-  /* top: 0; */
+  /* top: -1000px; */
+  top: 0;
 }
