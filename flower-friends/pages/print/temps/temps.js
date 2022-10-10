@@ -19,7 +19,7 @@ Page({
             arrange: 'horizontal',
             content: '',
             cardBg: 'rgb(255,255,255)',
-            fontBg: 'rgb(255,255,255)',
+            fontBg: Transparent,
             fontColor: 'rgb(0,0,0)'
         },
         arrangesArray: [{
@@ -150,6 +150,9 @@ Page({
                         operateLayerIndex: this.data.layers.length
                     })
                 }
+                break;
+            case '文字':
+                this.setData({ setTitle: index, operateLayerIndex: -1, setShow: true })
                 break;
             default:
                 this.setData({ setTitle: index, setShow: true })
@@ -373,6 +376,11 @@ Page({
     handleBgColorAlpha() {
         this.setData({
             [`layers[0].bgColor`]: Transparent
+        })
+    },
+    handleFontBgColorAlpha() {
+        this.setData({
+            ['fontSet.fontBg']: Transparent
         })
     },
     onLoad: function (options) {

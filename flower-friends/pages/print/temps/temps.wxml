@@ -107,7 +107,10 @@
             </view>
             <view class="flxst mart40">
                 <view class="ftz30 umh4">背景色</view>
-                <view catchtap="toPick" data-index="1" data-currentColor="{{fontSet.fontBg}}" style="background-color:{{fontSet.fontBg}}" class="bgColor marl32"></view>
+                <view class="bgColor marl32 {{fontSet.fontBg == 'transparent'?'':'active'}}" catchtap="toPick" data-index="1" data-currentColor="{{fontSet.fontBg}}" style="background-color:{{fontSet.fontBg}}"></view>
+                <view class="alpha-button {{fontSet.fontBg != 'transparent'?'':'active'}}" catchtap="handleFontBgColorAlpha">
+                    <image src="/img/touming.svg" mode="aspectFill"></image>
+                </view>
                 <view class="ftz30 umh4 marl40">文字颜色</view>
                 <view catchtap="toPick" data-index="2" data-currentColor="{{fontSet.fontColor}}" style="background-color:{{fontSet.fontColor}}" class="bgColor marl32"></view>
             </view>

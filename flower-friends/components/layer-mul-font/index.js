@@ -1,5 +1,5 @@
 
-import { V2, getImageInfo, measureOneColumnText, Layer, contain, ArrangeType, AlignType, measureOneRowText, base64ToTempFilePath } from '../layer/index'
+import { V2, getImageInfo, measureOneColumnText, Layer, contain, ArrangeType, AlignType, measureOneRowText, base64ToTempFilePath, Transparent } from '../layer/index'
 
 const doubleTime = 200;
 
@@ -166,7 +166,7 @@ Component({
             const { arrange, canvasWidth, width, height, canvasHeight, bgColor, fontColor, fontFamily, fontSize, letterSpace, lineSpace, text, fontAlign } = this.data;
 
             ctx.clearRect(0, 0, canvasWidth, canvasHeight)
-            if (bgColor) {
+            if (bgColor && bgColor != Transparent) {
                 ctx.fillStyle = bgColor;
                 ctx.fillRect(0, 0, canvasWidth, canvasHeight)
             }
