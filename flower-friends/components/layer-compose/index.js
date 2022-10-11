@@ -14,8 +14,9 @@ Component({
         /** 初始化 */
         init() {
             const query = this.createSelectorQuery()
-            query.select('#compose').fields({ node: true, size: true })
+            query.select('#compose').fields({ context: true, node: true, size: true })
             query.exec((res) => {
+                console.log(res);
                 const [{ node: canvas, width, height }] = res
                 const ctx = canvas.getContext('2d')
                 const dpr = wx.getSystemInfoSync().pixelRatio

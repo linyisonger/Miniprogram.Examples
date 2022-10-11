@@ -1,3 +1,10 @@
+
+export const LayerType = {
+    image: 'image',
+    font: 'font',
+    background: 'background'
+}
+
 export const Transparent = 'transparent';
 export const ArrangeType = {
     horizontal: 'horizontal',
@@ -8,7 +15,16 @@ export const AlignType = {
     left: 'left',
     right: 'right'
 }
-
+export const InitSize = {
+    [LayerType.font]: {
+        width: 2 / 3,
+        height: 1 / 2
+    },
+    [LayerType.image]: {
+        width: 1 / 2,
+        height: 1 / 2
+    }
+}
 export class Layer {
     /** @type {string} */
     src
@@ -24,11 +40,11 @@ export class Layer {
     top
     /** @type {number} */
     angle
-    /** @type {'image'|'font'|'background'} */
+    /** @type {keyof LayerType} */
     type
-    /** @type {typeof ArrangeType} */
+    /** @type {keyof ArrangeType} */
     arrange
-    /** @type {typeof AlignType} */
+    /** @type {keyof AlignType} */
     fontAlign
     /** @type {string} */
     bgColor

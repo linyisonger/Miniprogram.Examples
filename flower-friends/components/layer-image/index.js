@@ -1,7 +1,7 @@
 
-import { V2, getImageInfo, Layer, contain } from '../layer/index'
+import { V2, getImageInfo, Layer, contain, InitSize, LayerType } from '../layer/index'
 
-const doubleTime = 200;
+const doubleTime = 500;
 
 Component({
     properties: {
@@ -66,11 +66,12 @@ Component({
         /** 渲染 */
         async render() {
             const { layerWidth, layerHeight } = this.data;
+            const { width: initWidth, height: initHeight } = InitSize[LayerType.image]
             /** @type {Layer} */
             const init = this.data.init;
             const imageInfo = await getImageInfo(this.data.src)
             const { width, height } = imageInfo
-            const { resultWidth, resultHeight } = contain(width, height, layerWidth / 2, layerHeight / 2)
+            const { resultWidth, resultHeight } = contain(width, height, layerWidth * initWidth, layerHeight * initHeight)
             let tmpWidth = resultWidth
             let tmpHeight = resultHeight
             tmpWidth = Math.max(tmpWidth, this.data.minWidth)

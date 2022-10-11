@@ -63,14 +63,15 @@ Component({
                 console.log(bgImage);
                 const image = await createImage(canvas, bgImage)
                 ctx.drawImage(image, 0, 0, layerWidth, layerHeight)
+                this.setData({ src: await base64ToTempFilePath(canvas.toDataURL('image/jpeg', 1)) })
             }
             else {
                 ctx.fillStyle = bgColor
                 ctx.fillRect(0, 0, width, height)
+                this.setData({
+                    src: bgColor != Transparent ? await base64ToTempFilePath(canvas.toDataURL('image/jpeg', 1)) : ''
+                })
             }
-            this.setData({
-                src: bgColor != Transparent ? await base64ToTempFilePath(canvas.toDataURL('image/jpeg', 1)) : ''
-            })
         },
         value() {
             const { bgColor, bgImage, layerWidth, layerHeight } = this.data

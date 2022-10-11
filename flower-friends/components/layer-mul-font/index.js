@@ -1,5 +1,5 @@
 
-import { V2, getImageInfo, measureOneColumnText, Layer, contain, ArrangeType, AlignType, measureOneRowText, base64ToTempFilePath, Transparent } from '../layer/index'
+import { V2, getImageInfo, measureOneColumnText, Layer, contain, ArrangeType, AlignType, measureOneRowText, base64ToTempFilePath, Transparent, InitSize, LayerType } from '../layer/index'
 
 const doubleTime = 200;
 
@@ -79,8 +79,8 @@ Component({
         layerHeight: 100,
         layerLeft: 0,
         layerTop: 0,
-        width: 100,
-        height: 100,
+        width: 0,
+        height: 0,
         left: 0,
         top: 0,
         angle: 0,
@@ -143,8 +143,11 @@ Component({
             const { layerWidth, layerHeight } = this.data;
             /** @type {Layer} */
             const init = this.data.init;
+            const { width: initWidth, height: initHeight } = InitSize[LayerType.font]
+            const containerWidth = layerWidth * initWidth
+            const containerHeight = layerWidth * initHeight
             const { width, height } = this.data;
-            const { resultWidth, resultHeight } = contain(width, height, layerWidth / 2, layerHeight / 2)
+            const { resultWidth, resultHeight } = contain(width || containerWidth, height || containerHeight, containerWidth, containerHeight)
             let tmpWidth = Math.max(resultWidth, this.data.minWidth)
             let tmpHeight = Math.max(resultHeight, this.data.minHeight)
             this.setData({

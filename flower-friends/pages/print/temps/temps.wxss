@@ -10,6 +10,11 @@ page {
     align-items: center;
 }
 
+.popup-layer-container{
+  display: flex;
+  flex-direction: column-reverse;
+}
+
 .paper-container {
     flex: 1;
     display: flex;

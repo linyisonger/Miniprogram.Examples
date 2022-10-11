@@ -116,7 +116,7 @@
             </view>
         </view>
         <!-- 图层设置 -->
-        <view wx:if="{{setTitle=='图层'}}">
+        <view wx:if="{{setTitle=='图层'}}" class="popup-layer-container">
             <block wx:for="{{layers}}" wx:key="unique">
                 <view class="mart40 flxsb" wx:if="{{item.type !== 'background'}}">
                     <block wx:if="{{item.type === 'font'}}">

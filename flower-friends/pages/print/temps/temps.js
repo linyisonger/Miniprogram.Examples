@@ -1,4 +1,16 @@
-import { ArrangeType, chooseImage, contain, Layer, Transparent } from "../../../components/layer/index";
+import { ArrangeType, chooseImage, contain, Layer, Transparent, loadFontFace } from "../../../components/layer/index";
+const defaultFontSet = {
+    fontName: '',
+    fontSize: '16',
+    letterSpace: '0',
+    lineSpace: '0',
+    align: 'center',
+    arrange: 'horizontal',
+    content: '',
+    cardBg: 'rgb(255,255,255)',
+    fontBg: Transparent,
+    fontColor: 'rgb(0,0,0)'
+}
 
 Page({
     /**
@@ -10,18 +22,7 @@ Page({
             width: 343,
             height: 243
         },
-        fontSet: {
-            fontName: '',
-            fontSize: '16',
-            letterSpace: '0',
-            lineSpace: '0',
-            align: 'center',
-            arrange: 'horizontal',
-            content: '',
-            cardBg: 'rgb(255,255,255)',
-            fontBg: Transparent,
-            fontColor: 'rgb(0,0,0)'
-        },
+        fontSet: defaultFontSet,
         arrangesArray: [{
             'name': '水平',
             'align': 'horizontal'
@@ -47,16 +48,19 @@ Page({
         ],
         alignIndex: 0,
         fontIndex: 0,
-        fontsArray: [{
-            'id': 0,
-            'name': '秋日纷至沓来',
-            'font': 'qiuri'
-        },
-        {
-            'id': 1,
-            'name': '银河微微光亮',
-            'font': 'yinhe'
-        },
+        fontsArray: [
+            {
+                'id': 0,
+                'name': '秋日纷至沓来',
+                'font': 'Qiu Ri',
+                'url': 'https://mxj-test-dev.oss-cn-shanghai.aliyuncs.com/%E9%93%B6%E6%B2%B3%E5%BE%AE%E5%BE%AE%E5%85%89%E4%BA%AE.ttf'
+            },
+            {
+                'id': 1,
+                'name': '银河微微光亮',
+                'font': 'Yin He',
+                'url': 'https://mxj-test-dev.oss-cn-shanghai.aliyuncs.com/%E7%A7%8B%E6%97%A5%E7%BA%B7%E8%87%B3%E6%B2%93%E6%9D%A5.ttf'
+            },
         ],
         setTitle: '卡片',
         setShow: false,
@@ -76,6 +80,11 @@ Page({
         paperContainer: {
             width: 0,
             height: 0
+        }
+    },
+    async loadFontFaces() {
+        for (const font of this.data.fontsArray) {
+            await loadFontFace(font.font, font.url)
         }
     },
     handlePaperContainerSize() {
@@ -184,7 +193,7 @@ Page({
     bindPickerChangeFontArrange(e) {
         this.setData({
             arrangeIndex: e.detail.value,
-            ['fontSet.arrange']: this.data.arrangesArray[e.detail.value].arrange
+            ['fontSet.arrange']: this.data.arrangesArray[e.detail.value].align
         })
     },
     handleContentInput(e) {
@@ -301,6 +310,12 @@ Page({
     handleSaveLayers(e) {
         wx.setStorageSync('layers', this.data.layers)
     },
+    handleInitFontSet() {
+        this.setData({ fontSet: defaultFontSet })
+        this.bindPickerChangeFont({ detail: { value: 0 } })
+        this.bindPickerChangeFontAlign({ detail: { value: 0 } })
+        this.bindPickerChangeFontArrange({ detail: { value: 0 } })
+    },
     handleDoubleTapLayer(e) {
         const { index } = e.currentTarget.dataset
         const { layers, fontsArray, alignsArray, arrangesArray } = this.data;
@@ -383,7 +398,7 @@ Page({
             ['fontSet.fontBg']: Transparent
         })
     },
-    onLoad: function (options) {
+    async onLoad(options) {
         var that = this;
         wx.getSystemInfo({
             success: (result) => {
@@ -403,6 +418,7 @@ Page({
                 }
             },
         })
+        await this.loadFontFaces();
     },
     onReady() {
         this.handlePaperContainerSize()
