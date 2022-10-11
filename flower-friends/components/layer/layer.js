@@ -17,7 +17,7 @@ export const AlignType = {
 }
 export const InitSize = {
     [LayerType.font]: {
-        width: 2 / 3,
+        width: 3 / 4,
         height: 1 / 2
     },
     [LayerType.image]: {
@@ -60,4 +60,6 @@ export class Layer {
     letterSpace
     /** @type {number} */
     lineSpace
+    /** @type {boolean} */
+    isPrint
 }

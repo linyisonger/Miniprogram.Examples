@@ -10,7 +10,7 @@
         <view bind:tap="handleOperateLayer" data-index="-1" style="width:{{paper.width}}px;height:{{paper.height}}px" class="parper">
             <block wx:if="{{!isRender}}">
                 <block wx:for="{{layers}}" wx:key="unique">
-                    <layer-background wx:if="{{item.type === 'background'}}" class="parper-child" bgColor="{{item.bgColor}}" bgImage="{{item.bgImage}}"></layer-background>
+                    <layer-background wx:if="{{item.type === 'background'}}" class="parper-child" bgColor="{{item.bgColor}}" bgImage="{{item.bgImage}}" isPrint="{{item.isPrint}}"></layer-background>
                     <layer-image init="{{item}}" bind:operate="handleOperateLayer" operate="{{index===operateLayerIndex}}" wx:if="{{item.type === 'image'}}" class="parper-child" bind:change="handleChangeLayer" bind:remove="handleRemoveLayer" data-index="{{index}}" src="{{item.src}}"></layer-image>
                     <layer-mul-font init="{{item}}" bind:doubletap="handleDoubleTapLayer" bind:operate="handleOperateLayer" operate="{{index===operateLayerIndex}}" wx:if="{{item.type === 'font'}}" class="parper-child" bind:change="handleChangeLayer" bind:remove="handleRemoveLayer" data-index="{{index}}" fontFamily="{{item.fontFamily}}" fontAlign="{{item.fontAlign}}" text="{{item.text}}" fontSize="{{item.fontSize}}" fontColor="{{item.fontColor}}" bgColor="{{item.bgColor}}" arrange="{{item.arrange}}" lineSpace="{{item.lineSpace}}" letterSpace="{{item.letterSpace}}" />
                 </block>
@@ -34,11 +34,11 @@
             <view class="mart40 flxsb">
                 <view class="flxst">
                     <view class="umh68 ftz30">宽</view>
-                    <input cursor-spacing="100" class="cardSetI marl32" type="number" value="{{fakePaper.width}}" bindinput="handleFakePaperWidthInput" />
+                    <input cursor-spacing="100" class="cardSetI marl32" type="number" value="{{fakePaper.width}}" bindblur="handleFakePaperWidthBlur" bindinput="handleFakePaperWidthInput" />
                 </view>
                 <view class="flxst">
                     <view class="umh68 ftz30">高</view>
-                    <input cursor-spacing="100" class="cardSetI marl32" type="number" value="{{fakePaper.height}}" bindinput="handleFakePaperHeightInput" />
+                    <input cursor-spacing="100" class="cardSetI marl32" type="number" value="{{fakePaper.height}}" bindblur="handleFakePaperHeightBlur" bindinput="handleFakePaperHeightInput" />
                 </view>
             </view>
             <view class="flxst mart40">
@@ -52,7 +52,7 @@
             <view class="flxst mart40">
                 <view class="cardSetItem2">
                     背景是否参与打印
-                    <switch checked="{{isPrintBackground}}" class="marl40" bindchange="handleIsPrintBackgroundChange" />
+                    <switch checked="{{layers[0].isPrint}}" color="#4f9ff6" class="marl40" bindchange="handleIsPrintBackgroundChange" />
                 </view>
             </view>
             <view class="flxsb mart40">

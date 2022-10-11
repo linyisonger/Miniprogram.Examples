@@ -13,6 +13,9 @@ Component({
             type: String,
             value: ""
         },
+        isPrint: {
+            type: Boolean
+        }
     },
     data: {
         canvas: null,
@@ -74,20 +77,21 @@ Component({
             }
         },
         value() {
-            const { bgColor, bgImage, layerWidth, layerHeight } = this.data
+            const { bgColor, bgImage, layerWidth, layerHeight, isPrint } = this.data
 
             return {
                 bgColor: bgColor,
                 src: bgImage,
                 width: layerWidth,
                 height: layerHeight,
+                isPrint,
                 type: 'background'
             }
         }
     },
     observers: {
-        'bgColor,bgImage': function () {
+        'bgColor,bgImage,isPrint': function (old, n, o) {
             if (this.data.loaded) this.render()
-        }
+        },
     }
 })

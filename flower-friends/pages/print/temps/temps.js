@@ -1,4 +1,11 @@
 import { ArrangeType, chooseImage, contain, Layer, Transparent, loadFontFace } from "../../../components/layer/index";
+const paperSizeConfig = {
+    minWidth: 142,
+    minHeight: 255,
+    maxWidth: 686,
+    maxHeight: 970
+}
+
 const getDefaultFontSet = function () {
     return {
         fontName: '',
@@ -77,13 +84,13 @@ Page({
         layers: [
             {
                 type: "background",
-                bgColor: '#fff',
-                bgImage: ''
+                bgColor: Transparent,
+                bgImage: '',
+                isPrint: false
             }
         ],
         operateLayerIndex: -1,
         isRender: false,
-        isPrintBackground: false,
         paperContainer: {
             width: 0,
             height: 0
@@ -95,7 +102,7 @@ Page({
         }
     },
     handleIsPrintBackgroundChange(e) {
-        this.setData({ isPrintBackground: e.detail.value })
+        this.setData({ [`layers[0].isPrint`]: e.detail.value })
     },
     handlePaperContainerSize() {
         const query = this.createSelectorQuery();
@@ -111,7 +118,6 @@ Page({
         const { resultWidth, resultHeight } = contain(originWidth, originHeight, targetWidth, targetHeight)
         const width = Math.round(resultWidth);
         const height = Math.round(resultHeight);
-        console.log(width, originWidth, height, originHeight);
         if (width == originWidth && height == originHeight) return;
         this.setData({ isRender: true })
         this.setData({
@@ -220,19 +226,42 @@ Page({
         this.setData({ ['fontSet.lineSpace']: e.detail.value })
     },
     handleFakePaperWidthInput(e) {
-        this.setData({ [`fakePaper.width`]: +e.detail.value })
+        let width = +e.detail.value
+        // const { maxWidth, minWidth } = paperSizeConfig;
+        // if (width > maxWidth) width = maxWidth;
+        // else if (width < minWidth) width = minWidth
+        this.setData({ [`fakePaper.width`]: width })
+        this.handlePaperAutoSize()
+    },
+    handleFakePaperWidthBlur(e) {
+        let width = +e.detail.value
+        const { maxWidth, minWidth } = paperSizeConfig;
+        if (width > maxWidth) width = maxWidth;
+        else if (width < minWidth) width = minWidth
+        this.setData({ [`fakePaper.width`]: width })
         this.handlePaperAutoSize()
     },
     handleFakePaperHeightInput(e) {
-        this.setData({ [`fakePaper.height`]: +e.detail.value })
+        let height = +e.detail.value
+        // const { maxHeight, minHeight } = paperSizeConfig;
+        // if (height > maxHeight) height = maxHeight;
+        // else if (height < minHeight) height = minHeight
+        this.setData({ [`fakePaper.height`]: height })
+        this.handlePaperAutoSize()
+    },
+    handleFakePaperHeightBlur(e) {
+        let height = +e.detail.value
+        const { maxHeight, minHeight } = paperSizeConfig;
+        if (height > maxHeight) height = maxHeight;
+        else if (height < minHeight) height = minHeight
+        this.setData({ [`fakePaper.height`]: height })
         this.handlePaperAutoSize()
     },
     async handleCardPreview() {
-        const { isPrintBackground } = this.data
-
         /** @type {Layer[]} */
         let layers = this.selectAllComponents('.parper-child').map((pc) => pc.value())
-        if (!isPrintBackground) layers = layers.filter(a => a.type !== 'background')
+        console.log(layers);
+        layers = layers.filter(a => !(a.type === 'background' && !a.isPrint))
         let result = await this.selectComponent('.layer-compose').render(layers)
         wx.previewImage({
             urls: [result.tempPath],

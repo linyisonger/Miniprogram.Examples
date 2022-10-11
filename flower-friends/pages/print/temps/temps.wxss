@@ -5,20 +5,18 @@ page {
 }
 
 .wx-switch-input {
-    width: 80rpx !important;
-    height: 40rpx !important;
-    background: #4f9ff6 !important;
-    border: #4f9ff6 !important;
+    width: 42px !important;
+    height: 22px !important;
 }
 
 .wx-switch-input::before {
-    width: 80rpx !important;
-    height: 40rpx !important;
+    width: 40px !important;
+    height: 20px !important;
 }
 
 .wx-switch-input::after {
-    width: 40rpx !important;
-    height: 40rpx !important;
+    width: 18px !important;
+    height: 18px !important;
 }
 
 .page-container {
@@ -195,7 +193,7 @@ page {
 .cardSetItem2 {
     font-size: 30rpx;
     display: flex;
-    align-items: center;
+    /* align-items: center; */
 }
 
 .cardSetItem {
