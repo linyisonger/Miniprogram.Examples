@@ -15,23 +15,42 @@
   .indexM{
     width:686rpx;
     margin-left:32rpx;
+    padding-bottom:24rpx;
   }
   .indexClass{
-    width:213rpx;
-    height:230rpx;
+    width:331rpx;
+    height:165rpx;
     border-radius:15rpx;
     overflow: hidden;
     margin-top:32rpx;
     position: relative;
+    background-color:rgb(242,248,253);
+    box-sizing:border-box;
+    padding:30rpx;
   }
   .indexClassImg{
-    width:100%;
-    height:100%;
+    width:68rpx;
+    height:68rpx;
+    position:absolute;
+    right:30rpx;
+    top:48rpx;
+
   }
   .indexClassT{
-    position:absolute;
     font-size:32rpx;
-    color:#fff;
-    left:42.5rpx;
-    top:40rpx;
+    color:#212b3d;
+  }
+  .txt-w{
+    width:156rpx;
+    line-height:30rpx !important;
+  }
+  .itemImg{
+    height:48rpx;
+  }
+  .itemw{
+    width:120rpx;
+  }
+  .printLogo{
+    width:40rpx;
+    height:40rpx;
   }

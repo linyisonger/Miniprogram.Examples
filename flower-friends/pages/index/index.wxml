@@ -5,17 +5,64 @@
         </swiper-item>
     </swiper>
 </view>
-<view class="flxsb indexM">
+<view class="flxst ct pdl32 mart40">
+    <image src="../../img/pin.png" class="printLogo" />
+    <view class="marl16 ftz28 t-353 umh4">{{printName?'请扫码或选择附近设备':'请扫码或选择附近设备'}}</view>
+</view>
+<view class="pdlp1 pdrp1 flxsb mart40">
+    <view class="tx-c itemw" catchtap="scan">
+        <image mode="heightFix" src="../../img/20.png" class="itemImg" />
+        <view class="ftz28 t-212 mart16">扫码打印</view>
+    </view>
+    <view class="tx-c pstnr itemw" hover-class="op9" catchtap="goUrl" data-url="../print/list/list">
+        <image mode="heightFix" src="../../img/22.png" class="itemImg" />
+        <view class="ftz28 t-212 mart16">打印列表</view>
+        <view wx:if="{{taskNum>0}}" class="showIcon"></view>
+    </view>
+    <view catchtap="goUrl" data-url="../print/near/near" style="position:relative;" class="tx-c itemw">
+        <image mode="heightFix" src="../../img/21.png" class="itemImg" />
+        <view class="ftz28 t-212 mart16">附近设备</view>
+    </view>
+</view>
+<view class="flxsb indexM flxwp mart16">
     <view catchtap="goItem" data-url="" class="pstnr indexClass">
-        <image src="/img/5.png" class="indexClassImg" />
         <view class="indexClassT">文档打印</view>
+        <view class="t-6d768c ftz26 mart10 txt-w">支持多种格式</view>
+        <image src="/img/33.png" class="indexClassImg" />
     </view>
     <view catchtap="goItem" data-url="" class="pstnr indexClass">
-        <image src="/img/6.png" class="indexClassImg" />
         <view class="indexClassT">图片打印</view>
+        <view class="t-6d768c ftz26 mart10 txt-w">打印在A4纸上</view>
+        <image src="/img/34.png" class="indexClassImg" />
     </view>
     <view catchtap="goItem" data-url="/pages/print/templates/templates" class="pstnr indexClass">
-        <image src="/img/7.png" class="indexClassImg" />
         <view class="indexClassT">模板打印</view>
+        <view class="t-6d768c ftz26 mart10 txt-w">自定义卡片模板</view>
+        <image src="/img/35.png" class="indexClassImg" />
+    </view>
+    <view catchtap="goItem" data-url="" class="pstnr indexClass">
+        <view class="indexClassT">相片打印</view>
+        <view class="t-6d768c ftz26 mart10">6寸相纸</view>
+        <image src="/img/36.png" class="indexClassImg" />
+    </view>
+    <view catchtap="goItem" data-url="" class="pstnr indexClass">
+        <view class="indexClassT">身份证</view>
+        <view class="t-6d768c ftz26 mart10 txt-w">自动抠图到A4</view>
+        <image src="/img/37.png" class="indexClassImg" />
+    </view>
+    <view catchtap="goItem" data-url="/pages/print/templates/templates" class="pstnr indexClass">
+        <view class="indexClassT">证件照</view>
+        <view class="t-6d768c ftz26 mart10 txt-w">换背景 正装 可存电子版</view>
+        <image src="/img/38.png" class="indexClassImg" />
+    </view>
+    <view catchtap="goItem" data-url="" class="pstnr indexClass">
+        <view class="indexClassT">缩印排版</view>
+        <view class="t-6d768c ftz26 mart10 txt-w">文档缩印 图片拼版</view>
+        <image src="/img/39.png" class="indexClassImg" />
+    </view>
+    <view catchtap="goItem" data-url="/pages/print/templates/templates" class="pstnr indexClass">
+        <view class="indexClassT">证件复印</view>
+        <view class="t-6d768c ftz26 mart10">证件拼版</view>
+        <image src="/img/33.png" class="indexClassImg" />
     </view>
 </view>

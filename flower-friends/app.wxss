@@ -112,6 +112,7 @@ justify-content:center;
 .marl32{margin-left:32rpx;}
 .marl40{margin-left:40rpx;}
 .marl100{margin-left:100rpx;}
+.mart10{margin-top:10rpx;}
 .mart12{margin-top:12rpx;}
 .mart16{margin-top:16rpx;}
 .mart18{margin-top:18rpx;}

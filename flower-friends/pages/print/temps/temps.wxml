@@ -42,11 +42,12 @@
                 </view>
             </view>
             <view class="flxst mart40">
-                <view class="ftz30 umh4">背景色</view>
+                <view class="ftz30 umh48">背景色</view>
                 <view class="bgColor marl32 {{layers[0].bgColor != 'transparent'?'active':''}}" catchtap="toPick" data-index="0" data-currentColor="{{fontSet.cardBg}}" style="background-color:{{fontSet.cardBg}}"></view>
-                <view class="alpha-button {{layers[0].bgColor != 'transparent'?'':'active'}}" catchtap="handleBgColorAlpha">
+                <!-- <view class="alpha-button {{layers[0].bgColor != 'transparent'?'':'active'}}" catchtap="handleBgColorAlpha">
                     <image src="/img/touming.svg" mode="aspectFill"></image>
-                </view>
+                </view> -->
+                <view class="cardSetItem1 marl40" bindtap="handleBgColorAlpha">去除背景色</view>
             </view>
             <view class="flxsb mart40">
                 <view class="cardSetItem" bindtap="handleInsetBgImage">插入背景</view>
@@ -106,12 +107,13 @@
                 </view>
             </view>
             <view class="flxst mart40">
-                <view class="ftz30 umh4">背景色</view>
+                <view class="ftz30 umh48">背景色</view>
                 <view class="bgColor marl32 {{fontSet.fontBg == 'transparent'?'':'active'}}" catchtap="toPick" data-index="1" data-currentColor="{{fontSet.fontBg}}" style="background-color:{{fontSet.fontBg}}"></view>
-                <view class="alpha-button {{fontSet.fontBg != 'transparent'?'':'active'}}" catchtap="handleFontBgColorAlpha">
+                <!-- <view class="alpha-button {{fontSet.fontBg != 'transparent'?'':'active'}}" catchtap="handleFontBgColorAlpha">
                     <image src="/img/touming.svg" mode="aspectFill"></image>
-                </view>
-                <view class="ftz30 umh4 marl40">文字颜色</view>
+                </view> -->
+                <view class="cardSetItem1 marl40" catchtap="handleFontBgColorAlpha">去除背景色</view>
+                <view class="ftz30 umh48 marl40">文字颜色</view>
                 <view catchtap="toPick" data-index="2" data-currentColor="{{fontSet.fontColor}}" style="background-color:{{fontSet.fontColor}}" class="bgColor marl32"></view>
             </view>
         </view>

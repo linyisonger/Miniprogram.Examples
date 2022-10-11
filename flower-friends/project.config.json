@@ -44,9 +44,13 @@
         "useStaticServer": true
     },
     "compileType": "miniprogram",
-    "libVersion": "2.26.0",
-    "appid": "wxdde724f4a496b91f",
+    "libVersion": "2.26.1",
+    "appid": "wxa6bbff969a5ccf7e",
     "projectname": "%E8%8A%B1%E5%8F%8B",
+    "editorSetting": {
+        "tabIndent": "insertSpaces",
+        "tabSize": 4
+    },
     "condition": {
         "search": {
             "list": []
@@ -66,9 +70,5 @@
         "miniprogram": {
             "list": []
         }
-    },
-    "editorSetting": {
-        "tabIndent": "insertSpaces",
-        "tabSize": 4
     }
 }

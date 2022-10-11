@@ -12,6 +12,7 @@ const defaultFontSet = {
     fontColor: 'rgb(0,0,0)'
 }
 
+
 Page({
     /**
      * 页面的初始数据
@@ -33,18 +34,18 @@ Page({
         }
         ],
         arrangeIndex: 0,
-        alignsArray: [{
-            'name': '左对齐',
-            'align': 'left'
-        },
-        {
-            'name': '居中',
-            'align': 'center'
-        },
-        {
-            'name': '右对齐',
-            'align': 'right'
-        }
+        alignsArray: [
+            {
+                'name': '居中',
+                'align': 'center'
+            }, {
+                'name': '左对齐',
+                'align': 'left'
+            },
+            {
+                'name': '右对齐',
+                'align': 'right'
+            }
         ],
         alignIndex: 0,
         fontIndex: 0,

@@ -152,12 +152,23 @@ page {
     border-radius: 40rpx;
     border: 2rpx dashed #c8cdd5;
     box-sizing: border-box;
+    margin-top:2rpx;
 }
 
 .bgColor.active {
     border: 2rpx solid #4f9ff6;
 }
-
+.cardSetItem1{
+    width: 150rpx;
+    height:48rpx;
+    box-sizing: border-box;
+    text-align: center;
+    line-height: 48rpx;
+    font-size: 26rpx;
+    color: #fff;
+    background-color:#4f9ff6;
+    border-radius: 10rpx;
+}
 .cardSetItem {
     width: 202rpx;
     height: 68rpx;
