@@ -4,15 +4,32 @@ page {
     height: 100vh;
 }
 
+.wx-switch-input {
+    width: 80rpx !important;
+    height: 40rpx !important;
+    background: #4f9ff6 !important;
+    border: #4f9ff6 !important;
+}
+
+.wx-switch-input::before {
+    width: 80rpx !important;
+    height: 40rpx !important;
+}
+
+.wx-switch-input::after {
+    width: 40rpx !important;
+    height: 40rpx !important;
+}
+
 .page-container {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.popup-layer-container{
-  display: flex;
-  flex-direction: column-reverse;
+.popup-layer-container {
+    display: flex;
+    flex-direction: column-reverse;
 }
 
 .paper-container {
@@ -152,23 +169,35 @@ page {
     border-radius: 40rpx;
     border: 2rpx dashed #c8cdd5;
     box-sizing: border-box;
-    margin-top:2rpx;
+    margin-top: 2rpx;
 }
 
 .bgColor.active {
     border: 2rpx solid #4f9ff6;
 }
-.cardSetItem1{
+
+.cardSetItem1 {
     width: 150rpx;
-    height:48rpx;
+    height: 48rpx;
     box-sizing: border-box;
     text-align: center;
     line-height: 48rpx;
     font-size: 26rpx;
     color: #fff;
-    background-color:#4f9ff6;
+    background-color: #4f9ff6;
     border-radius: 10rpx;
 }
+
+.flxst {
+    align-items: center;
+}
+
+.cardSetItem2 {
+    font-size: 30rpx;
+    display: flex;
+    align-items: center;
+}
+
 .cardSetItem {
     width: 202rpx;
     height: 68rpx;

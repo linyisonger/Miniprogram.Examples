@@ -1,17 +1,18 @@
 import { ArrangeType, chooseImage, contain, Layer, Transparent, loadFontFace } from "../../../components/layer/index";
-const defaultFontSet = {
-    fontName: '',
-    fontSize: '16',
-    letterSpace: '0',
-    lineSpace: '0',
-    align: 'center',
-    arrange: 'horizontal',
-    content: '',
-    cardBg: 'rgb(255,255,255)',
-    fontBg: Transparent,
-    fontColor: 'rgb(0,0,0)'
+const getDefaultFontSet = function () {
+    return {
+        fontName: '',
+        fontSize: '16',
+        letterSpace: '0',
+        lineSpace: '0',
+        align: 'center',
+        arrange: 'horizontal',
+        content: '',
+        cardBg: 'rgb(255,255,255)',
+        fontBg: Transparent,
+        fontColor: 'rgb(0,0,0)'
+    }
 }
-
 
 Page({
     /**
@@ -23,7 +24,11 @@ Page({
             width: 343,
             height: 243
         },
-        fontSet: defaultFontSet,
+        fakePaper: {
+            width: 343,
+            height: 243
+        },
+        fontSet: getDefaultFontSet(),
         arrangesArray: [{
             'name': '水平',
             'align': 'horizontal'
@@ -78,6 +83,7 @@ Page({
         ],
         operateLayerIndex: -1,
         isRender: false,
+        isPrintBackground: false,
         paperContainer: {
             width: 0,
             height: 0
@@ -87,6 +93,9 @@ Page({
         for (const font of this.data.fontsArray) {
             await loadFontFace(font.font, font.url)
         }
+    },
+    handleIsPrintBackgroundChange(e) {
+        this.setData({ isPrintBackground: e.detail.value })
     },
     handlePaperContainerSize() {
         const query = this.createSelectorQuery();
@@ -98,7 +107,7 @@ Page({
     },
     handlePaperAutoSize() {
         const { width: targetWidth, height: targetHeight } = this.data.paperContainer;
-        const { width: originWidth, height: originHeight } = this.data.paper
+        const { width: originWidth, height: originHeight } = this.data.fakePaper
         const { resultWidth, resultHeight } = contain(originWidth, originHeight, targetWidth, targetHeight)
         const width = Math.round(resultWidth);
         const height = Math.round(resultHeight);
@@ -163,6 +172,7 @@ Page({
                 break;
             case '文字':
                 this.setData({ setTitle: index, operateLayerIndex: -1, setShow: true })
+                this.handleInitFontSet()
                 break;
             default:
                 this.setData({ setTitle: index, setShow: true })
@@ -209,80 +219,21 @@ Page({
     handleLineSpaceInput(e) {
         this.setData({ ['fontSet.lineSpace']: e.detail.value })
     },
-    handlePaperWidthInput(e) {
-        this.data.paper = {
-            width: +e.detail.value,
-            height: this.data.paper.height
-        }
+    handleFakePaperWidthInput(e) {
+        this.setData({ [`fakePaper.width`]: +e.detail.value })
+        this.handlePaperAutoSize()
     },
-    handlePaperHeightInput(e) {
-        this.data.paper = {
-            width: this.data.paper.width,
-            height: +e.detail.value,
-        }
-    },
-    //选择照片方式
-    chooseStyle() {
-        var that = this;
-        wx.showActionSheet({
-            itemList: ['相册', '拍照', '从微信聊天选择'],
-            success(res) {
-                if (res.tapIndex == 0) {
-                    that.getPhoto('album');
-                }
-                if (res.tapIndex == 1) {
-                    that.getPhoto('camera');
-                }
-                if (res.tapIndex == 2) {
-                    that.getPhotoMessage();
-                }
-            },
-            fail(res) {
-
-            }
-        })
-    },
-    getPhotoMessage() {
-        wx.chooseMessageFile({
-            count: 1,
-            type: 'image',
-            success: (res) => {
-
-            }
-        })
-    },
-    getPhoto(type) {
-        if (getApp().isLowerThenVersion("2.10.0")) {
-            wx.chooseImage({
-                count: 1,
-                sizeType: ['original'],
-                sourceType: [type],
-                success: (res) => {
-
-                }
-            })
-        }
-        else {
-            wx.chooseMedia({
-                count: 1,
-                mediaType: ['image'],
-                sourceType: [type],
-                sizeType: ['original'],
-                success: (res) => {
-                    console.log(res);
-                    this.setData({
-                        [`layers[${this.data.layers.length}]`]: {
-                            type: 'image',
-                            src: res.tempFiles[0].tempFilePath,
-                        },
-                        operateLayerIndex: this.data.layers.length
-                    })
-                }
-            })
-        }
+    handleFakePaperHeightInput(e) {
+        this.setData({ [`fakePaper.height`]: +e.detail.value })
+        this.handlePaperAutoSize()
     },
     async handleCardPreview() {
-        let result = await this.selectComponent('.layer-compose').render(this.selectAllComponents('.parper-child').map((pc) => pc.value()))
+        const { isPrintBackground } = this.data
+
+        /** @type {Layer[]} */
+        let layers = this.selectAllComponents('.parper-child').map((pc) => pc.value())
+        if (!isPrintBackground) layers = layers.filter(a => a.type !== 'background')
+        let result = await this.selectComponent('.layer-compose').render(layers)
         wx.previewImage({
             urls: [result.tempPath],
             fail: (err) => {
@@ -305,14 +256,13 @@ Page({
     },
     handleOperateLayer(e) {
         const { index } = e.currentTarget.dataset
-        console.log(e);
         this.setData({ operateLayerIndex: index })
     },
     handleSaveLayers(e) {
         wx.setStorageSync('layers', this.data.layers)
     },
     handleInitFontSet() {
-        this.setData({ fontSet: defaultFontSet })
+        this.setData({ fontSet: getDefaultFontSet() })
         this.bindPickerChangeFont({ detail: { value: 0 } })
         this.bindPickerChangeFontAlign({ detail: { value: 0 } })
         this.bindPickerChangeFontArrange({ detail: { value: 0 } })

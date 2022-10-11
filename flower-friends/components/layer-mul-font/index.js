@@ -376,7 +376,6 @@ Component({
         },
         /** 移动 */
         touchmove(e) {
-            console.log(e);
             const { touches: [{ clientX: startX, clientY: startY }], self: { top, left, width, height, angle, rotateV2 }, currentTarget: { dataset: { type } } } = this.data.start;
             const { touches: [{ clientX: moveX, clientY: moveY }] } = e;
             const { layerLeft, layerTop } = this.data;

@@ -34,11 +34,11 @@
             <view class="mart40 flxsb">
                 <view class="flxst">
                     <view class="umh68 ftz30">宽</view>
-                    <input cursor-spacing="100" class="cardSetI marl32" type="number" value="{{paper.width}}" bindinput="handlePaperWidthInput" />
+                    <input cursor-spacing="100" class="cardSetI marl32" type="number" value="{{fakePaper.width}}" bindinput="handleFakePaperWidthInput" />
                 </view>
                 <view class="flxst">
                     <view class="umh68 ftz30">高</view>
-                    <input cursor-spacing="100" class="cardSetI marl32" type="number" value="{{paper.height}}" bindinput="handlePaperHeightInput" />
+                    <input cursor-spacing="100" class="cardSetI marl32" type="number" value="{{fakePaper.height}}" bindinput="handleFakePaperHeightInput" />
                 </view>
             </view>
             <view class="flxst mart40">
@@ -48,6 +48,12 @@
                     <image src="/img/touming.svg" mode="aspectFill"></image>
                 </view> -->
                 <view class="cardSetItem1 marl40" bindtap="handleBgColorAlpha">去除背景色</view>
+            </view>
+            <view class="flxst mart40">
+                <view class="cardSetItem2">
+                    背景是否参与打印
+                    <switch checked="{{isPrintBackground}}" class="marl40" bindchange="handleIsPrintBackgroundChange" />
+                </view>
             </view>
             <view class="flxsb mart40">
                 <view class="cardSetItem" bindtap="handleInsetBgImage">插入背景</view>
@@ -59,7 +65,7 @@
         <view wx:if="{{setTitle=='文字'}}">
             <view class="flxst mart40">
                 <view class="ftz30 umh68">字体</view>
-                <picker class="marl32 pstnr" bindchange="bindPickerChangeFont" value="{{index}}" range="{{fontsArray}}" range-key="name">
+                <picker class="marl32 pstnr" bindchange="bindPickerChangeFont" value="{{fontIndex}}" range="{{fontsArray}}" range-key="name">
                     <view class="picker">
                         {{fontsArray[fontIndex].name}}
                     </view>
@@ -83,7 +89,7 @@
             <view class="mart40 flxsb">
                 <view class="flxst">
                     <view class="umh68 ftz30">对齐</view>
-                    <picker class="marl32 pstnr" bindchange="bindPickerChangeFontAlign" value="{{index}}" range="{{alignsArray}}" range-key="name">
+                    <picker class="marl32 pstnr" bindchange="bindPickerChangeFontAlign" value="{{alignIndex}}" range="{{alignsArray}}" range-key="name">
                         <view class="pickerAlign">
                             {{alignsArray[alignIndex].name}}
                         </view>
@@ -92,7 +98,7 @@
                 </view>
                 <view class="flxst">
                     <view class="umh68 ftz30">排列</view>
-                    <picker class="marl32 pstnr" bindchange="bindPickerChangeFontArrange" value="{{index}}" range="{{arrangesArray}}" range-key="name">
+                    <picker class="marl32 pstnr" bindchange="bindPickerChangeFontArrange" value="{{arrangeIndex}}" range="{{arrangesArray}}" range-key="name">
                         <view class="pickerAlign">
                             {{arrangesArray[arrangeIndex].name}}
                         </view>
