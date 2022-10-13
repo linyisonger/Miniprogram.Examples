@@ -77,7 +77,7 @@ Page({
         ],
         setTitle: '卡片',
         setShow: false,
-        rgb: 'rgb(0,154,97)', //初始值
+        rgb: 'rgb(0,154,97,1)', //初始值
         pick: false,
         chooseColorIndex: 0,
         /** @type {Layer[]} */
@@ -115,10 +115,20 @@ Page({
     handlePaperAutoSize() {
         const { width: targetWidth, height: targetHeight } = this.data.paperContainer;
         const { width: originWidth, height: originHeight } = this.data.fakePaper
-        const { resultWidth, resultHeight } = contain(originWidth, originHeight, targetWidth, targetHeight)
-        const width = Math.round(resultWidth);
-        const height = Math.round(resultHeight);
-        if (width == originWidth && height == originHeight) return;
+        const { width: realWidth, height: realHeight } = this.data.paper
+
+        let width;
+        let height;
+        if (originWidth < targetWidth && originHeight < targetHeight) {
+            width = originWidth;
+            height = originHeight
+        }
+        else {
+            let { resultWidth, resultHeight } = contain(originWidth, originHeight, targetWidth, targetHeight)
+            width = Math.round(resultWidth);
+            height = Math.round(resultHeight);
+        }
+        if (width == realWidth && height == realHeight) return;
         this.setData({ isRender: true })
         this.setData({
             'paper': { width, height },

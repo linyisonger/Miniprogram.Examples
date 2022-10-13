@@ -1,7 +1,8 @@
 
 import { V2, getImageInfo, measureOneColumnText, Layer, contain, ArrangeType, AlignType, measureOneRowText, base64ToTempFilePath, Transparent, InitSize, LayerType } from '../layer/index'
 
-const doubleTime = 200;
+const doubleTime = 500;
+const longTime = 500;
 
 Component({
     properties: {
@@ -91,7 +92,8 @@ Component({
         ctx: null,
         canvasWidth: 0,
         canvasHeight: 0,
-        src: ''
+        src: '',
+        longTapTimeoutId: 0 // 长按事件回调
     },
     lifetimes: {
         async ready() {
@@ -353,6 +355,8 @@ Component({
         },
         /** 开始 */
         touchstart(e) {
+            console.log(e);
+            this.data.longTapTimeoutId = setTimeout(() => this.triggerEvent('longtap'), longTime);
             if (e.touches.length < 2 && +new Date() - this.data.lastTime < doubleTime) return this.triggerEvent('doubletap')
             this.data.lastTime = +new Date()
             const { layerLeft, layerTop } = this.data;
@@ -376,6 +380,8 @@ Component({
         },
         /** 移动 */
         touchmove(e) {
+            console.log(e);
+            clearTimeout(this.data.longTapTimeoutId)
             const { touches: [{ clientX: startX, clientY: startY }], self: { top, left, width, height, angle, rotateV2 }, currentTarget: { dataset: { type } } } = this.data.start;
             const { touches: [{ clientX: moveX, clientY: moveY }] } = e;
             const { layerLeft, layerTop } = this.data;
@@ -419,7 +425,7 @@ Component({
         },
         /** 结束 */
         touchend(e) {
-            // console.log(e);
+            clearTimeout(this.data.longTapTimeoutId)
             this.render()
         },
         /** 输出值 */
