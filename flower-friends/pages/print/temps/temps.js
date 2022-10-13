@@ -15,9 +15,9 @@ const getDefaultFontSet = function () {
         align: 'center',
         arrange: 'horizontal',
         content: '',
-        cardBg: 'rgb(255,255,255)',
+        cardBg: 'rgba(255,255,255,1)',
         fontBg: Transparent,
-        fontColor: 'rgb(0,0,0)'
+        fontColor: 'rgba(0,0,0,1)'
     }
 }
 
@@ -77,7 +77,7 @@ Page({
         ],
         setTitle: '卡片',
         setShow: false,
-        rgb: 'rgb(0,154,97,1)', //初始值
+        rgba: 'rgba(0,154,97,1)', //初始值
         pick: false,
         chooseColorIndex: 0,
         /** @type {Layer[]} */
@@ -143,30 +143,30 @@ Page({
 
         this.setData({
             chooseColorIndex: index,
-            rgb: currentcolor,
+            rgba: currentcolor,
             pick: true,
         })
     },
     //取色结果回调
     pickColor(e) {
-        let rgb = e.detail.color;
+        let rgba = e.detail.color;
         let { layers } = this.data
         switch (this.data.chooseColorIndex) {
             case '0':
-                layers[0].bgColor = rgb;
+                layers[0].bgColor = rgba;
                 this.setData({
                     [`layers[0]`]: layers[0],
-                    ['fontSet.cardBg']: rgb
+                    ['fontSet.cardBg']: rgba
                 })
                 break;
             case '1':
                 this.setData({
-                    ['fontSet.fontBg']: rgb
+                    ['fontSet.fontBg']: rgba
                 })
                 break;
             case '2':
                 this.setData({
-                    ['fontSet.fontColor']: rgb
+                    ['fontSet.fontColor']: rgba
                 })
                 break;
         }

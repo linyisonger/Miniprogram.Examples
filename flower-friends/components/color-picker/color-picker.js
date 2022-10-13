@@ -2,7 +2,7 @@ Component({
     properties: {
         initColor: {
             type: String,
-            value: 'rgb(255,0,0,1)'
+            value: 'rgba(255,0,0,1)'
         },
         maskClosable: {
             type: Boolean,
@@ -80,6 +80,7 @@ Component({
             })
         },
         onEnd() {
+
             this.triggerEvent('changeColor', {
                 alpha: this.data.alpha,
                 color: this.rgb2rgba(this.data.colorRes, this.data.alpha).rgba
@@ -210,17 +211,26 @@ Component({
             }
         },
         rgba2rgb: function (rgba) {
-            let reg = /(?<=\()(\d+),(\d+),(\d+),((?:0?\.\d+)|1)(?=\))/;
-            let [, r, g, b, a] = rgba.match(reg);
-            let rgb = `rgb(${r},${g},${b})`;
-            let alpha = +a;
-            return { rgb, alpha }
+            try {
+                let reg = /rgba\((\d+),(\d+),(\d+),((?:0?\.\d+)|1)(?=\))/;
+                let [, r, g, b, a] = rgba.match(reg);
+                let rgb = `rgb(${r},${g},${b})`;
+                let alpha = +a;
+                return { rgb, alpha }
+            } catch (error) {
+                console.log(error);
+            }
         },
         rgb2rgba: function (rgb, alpha) {
-            let reg = /(?<=\()(\d+),(\d+),(\d+)(?=\))/;
-            let [, r, g, b] = rgb.match(reg);
-            let rgba = `rgba(${r},${g},${b},${alpha})`;
-            return { rgba }
+            try {
+                let reg = /rgb\((\d+),(\d+),(\d+)(?=\))/;
+                let [, r, g, b] = rgb.match(reg);
+                console.log(rgb.match(reg));
+                let rgba = `rgba(${r},${g},${b},${alpha})`;
+                return { rgba }
+            } catch (error) {
+                console.log(error);
+            }
         },
 
     }
