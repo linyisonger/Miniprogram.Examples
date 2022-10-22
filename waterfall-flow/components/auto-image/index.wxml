@@ -1,0 +1,6 @@
+<view class="in-image-content {{loaded?'show':''}}">
+  <image class="in-image-content__image" src="{{src}}" mode="{{mode}}" style="width: {{width}};height: {{height}};" bindload="imageLoad"></image>
+  <view class="in-image-content__slot" hidden="{{!loaded}}">
+    <slot></slot>
+  </view>
+</view>

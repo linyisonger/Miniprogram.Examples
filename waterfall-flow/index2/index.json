@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "auto-image":"/components/auto-image/index"
+  },
+  "navigationBarTitleText": "瀑布流"
+}

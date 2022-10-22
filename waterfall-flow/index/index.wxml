@@ -1,0 +1,11 @@
+<view class="masonry" style="column-count:{{column}}">
+  <block wx:for="{{column}}" wx:for-item="columnNum" wx:key="unique">
+    <block wx:for="{{images}}" wx:key="unique">
+      <view wx:if="{{index%column==columnNum}}" class="item">
+        <auto-image class="auto-image" src="{{item}}" >
+          <view class="count">{{index+1}}</view>
+        </auto-image>
+      </view>
+    </block>
+  </block>
+</view>

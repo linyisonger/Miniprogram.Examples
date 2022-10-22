@@ -66,13 +66,13 @@ Page({
                 'id': 0,
                 'name': '秋日纷至沓来',
                 'font': 'Qiu Ri',
-                'url': 'https://mxj-test-dev.oss-cn-shanghai.aliyuncs.com/%E9%93%B6%E6%B2%B3%E5%BE%AE%E5%BE%AE%E5%85%89%E4%BA%AE.ttf'
+                'url': 'https://mxj.zv100.net/a.ttf'
             },
             {
                 'id': 1,
                 'name': '银河微微光亮',
                 'font': 'Yin He',
-                'url': 'https://mxj-test-dev.oss-cn-shanghai.aliyuncs.com/%E7%A7%8B%E6%97%A5%E7%BA%B7%E8%87%B3%E6%B2%93%E6%9D%A5.ttf'
+                'url': 'https://mxj.zv100.net/b.ttf'
             },
         ],
         setTitle: '卡片',

@@ -1,0 +1,9 @@
+<view class="masonry" style="--column:{{column}};--gap:{{gap}}px;">
+  <block wx:for="{{images}}" wx:key="unique">
+    <view class="masonry-item" style="{{masonry[index].style}}">
+      <auto-image class="auto-image" src="{{item}}" bind:loaded="handleAutoImageLoaded" data-index="{{index}}">
+        <view class="count">{{index+1}}</view>
+      </auto-image>
+    </view>
+  </block>
+</view>

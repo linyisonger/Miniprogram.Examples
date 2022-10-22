@@ -1,0 +1,27 @@
+:host {
+  width: 100%;
+}
+
+.in-image-content {
+  width: 100%;
+  position: relative;
+  break-inside: avoid;
+  opacity: 0;
+  transition: opacity .5s ease-in;
+}
+
+.in-image-content__image {
+  display: block;
+}
+
+.in-image-content__slot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.show {
+  opacity: 1;
+}

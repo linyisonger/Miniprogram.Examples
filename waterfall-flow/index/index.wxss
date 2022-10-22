@@ -1,0 +1,22 @@
+ .masonry {
+   --gap: 1px;
+   column-count: 2;
+   column-gap: var(--gap);
+   width: 100%;
+ }
+
+ .item {
+   width: 100%;
+   padding-bottom: var(--gap);
+   transition: all .3s ease-in-out;
+ }
+
+ .count {
+   display: flex;
+   height: 100%;
+   width: 100%;
+   font-size: 80px;
+   font-weight: bold;
+   align-items: center;
+   justify-content: center;
+ }
