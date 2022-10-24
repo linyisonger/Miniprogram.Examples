@@ -297,8 +297,22 @@ Page({
         const { index } = e.currentTarget.dataset
         this.setData({ operateLayerIndex: index })
     },
-    handleSaveLayers(e) {
+    async handleSaveLayers(e) {
         wx.setStorageSync('layers', this.data.layers)
+        /** @type {Layer[]} */
+        let layers = this.selectAllComponents('.parper-child').map((pc) => pc.value())
+        console.log(layers);
+        layers = layers.filter(a => !(a.type === 'background' && !a.isPrint))
+        let result = await this.selectComponent('.layer-compose').render(layers)
+        wx.saveImageToPhotosAlbum({
+            filePath: result.tempPath,
+            success: (res) => {
+                console.log(res);
+            },
+            fail: (err) => {
+                console.log(err);
+            }
+        })
     },
     handleInitFontSet() {
         this.setData({ fontSet: getDefaultFontSet() })

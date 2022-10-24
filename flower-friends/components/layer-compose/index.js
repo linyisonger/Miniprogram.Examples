@@ -1,4 +1,4 @@
-import { createImage, Layer, base64ToTempFilePath } from "../layer/index"
+import { createImage, Layer, base64ToTempFilePath, LayerDefinition } from "../layer/index"
 
 Component({
     data: {
@@ -19,7 +19,8 @@ Component({
                 console.log(res);
                 const [{ node: canvas, width, height }] = res
                 const ctx = canvas.getContext('2d')
-                const dpr = wx.getSystemInfoSync().pixelRatio
+                let dpr = wx.getSystemInfoSync().pixelRatio
+                dpr *= LayerDefinition;
                 canvas.width = width * dpr
                 canvas.height = height * dpr
                 ctx.scale(dpr, dpr)

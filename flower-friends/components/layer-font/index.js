@@ -1,4 +1,4 @@
-import { base64ToTempFilePath, ArrangeType, AlignType, Layer } from '../layer/index'
+import { base64ToTempFilePath, ArrangeType, AlignType, Layer, LayerDefinition } from '../layer/index'
 
 Component({
     properties: {
@@ -120,7 +120,8 @@ Component({
             query.exec((res) => {
                 const [{ node: canvas, width, height }] = res
                 const ctx = canvas.getContext('2d')
-                const dpr = wx.getSystemInfoSync().pixelRatio
+                let dpr = wx.getSystemInfoSync().pixelRatio
+                dpr *= LayerDefinition;
                 canvas.width = width * dpr
                 canvas.height = height * dpr
                 ctx.scale(dpr, dpr)

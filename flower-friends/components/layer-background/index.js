@@ -1,4 +1,4 @@
-import { base64ToTempFilePath, createImage, Transparent } from '../layer/index'
+import { base64ToTempFilePath, createImage, LayerDefinition, Transparent } from '../layer/index'
 
 // 背景层
 Component({
@@ -37,7 +37,8 @@ Component({
             query.exec((res) => {
                 const [{ node: canvas, width, height }] = res
                 const ctx = canvas.getContext('2d')
-                const dpr = wx.getSystemInfoSync().pixelRatio
+                let dpr = wx.getSystemInfoSync().pixelRatio
+                dpr *= LayerDefinition;
                 canvas.width = width * dpr
                 canvas.height = height * dpr
                 ctx.scale(dpr, dpr)

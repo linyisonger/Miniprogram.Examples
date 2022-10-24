@@ -1,4 +1,4 @@
-import { Layer, ArrangeType, AlignType, Transparent, InitSize, LayerType } from './layer'
+import { Layer, ArrangeType, AlignType, Transparent, InitSize, LayerType, LayerDefinition } from './layer'
 import { V2 } from './v2'
 import {
     createImage,
@@ -26,5 +26,6 @@ export {
     measureOneColumnText,
     Transparent,
     InitSize,
-    LayerType
+    LayerType,
+    LayerDefinition
 }

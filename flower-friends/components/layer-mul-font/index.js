@@ -1,5 +1,5 @@
 
-import { V2, getImageInfo, measureOneColumnText, Layer, contain, ArrangeType, AlignType, measureOneRowText, base64ToTempFilePath, Transparent, InitSize, LayerType } from '../layer/index'
+import { V2, LayerDefinition, getImageInfo, measureOneColumnText, Layer, contain, ArrangeType, AlignType, measureOneRowText, base64ToTempFilePath, Transparent, InitSize, LayerType } from '../layer/index'
 
 const doubleTime = 500;
 const longTime = 500;
@@ -129,7 +129,8 @@ Component({
                     (res) => {
                         const [, { node: canvas, width: canvasWidth, height: canvasHeight }] = res;
                         const ctx = canvas.getContext('2d')
-                        const dpr = wx.getSystemInfoSync().pixelRatio
+                        let dpr = wx.getSystemInfoSync().pixelRatio
+                        dpr *= LayerDefinition;
                         canvas.width = canvasWidth * dpr
                         canvas.height = canvasHeight * dpr
                         ctx.scale(dpr, dpr)
