@@ -1,4 +1,5 @@
-
+// 画布清晰度
+const CanvasDefinition = 3;
 /**
  * 缩放
  * @param {number} ow 源图宽 
@@ -258,7 +259,8 @@ Component({
           if (this.data.isNew) {
             const canvas = res[0].node
             const ctx = canvas.getContext('2d')
-            const dpr = wx.getSystemInfoSync().pixelRatio
+            let dpr = wx.getSystemInfoSync().pixelRatio
+            dpr *= CanvasDefinition;
             canvas.width = res[0].width * dpr
             canvas.height = res[0].height * dpr
             ctx.scale(dpr, dpr)
