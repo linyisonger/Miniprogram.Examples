@@ -287,6 +287,7 @@ Component({
       /** @type {HTMLCanvasElement} */
       let canvas = this.data.canvas;
       let dpr = wx.getSystemInfoSync().pixelRatio
+      dpr *= CanvasDefinition;
       let width = canvas.width / dpr
       let height = canvas.height / dpr
       let image = this.data.isNew ? await createImage(canvas, src) : await getImageInfo(src)
