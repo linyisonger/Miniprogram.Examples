@@ -77,6 +77,55 @@ function drawBorder(ctx, x, y, w, h) {
   ctx.lineTo(x, y);
   ctx.stroke()
 }
+/**
+ * canvas最大尺寸
+ * @param {HTMLCanvasElement} canvas 
+ * @param {number} width 
+ * @param {number} height 
+ * @param {number} dpr 
+ */
+function maximumSizeOfCanvas(canvas, width, height, dpr) {
+  let scale = 0;
+  let targetWidth = 4096;
+  let targetHeight = 4096;
+  let currWidth = width;
+  let currHeight = height;
+
+  width *= dpr
+  height *= dpr
+
+  if (width < targetWidth && height < targetHeight) {
+    canvas.width = width;
+    canvas.height = height;
+    return { width, height, dpr, canvas }
+  }
+  if (width > height) {
+    scale = width / height;
+    width = targetWidth;
+    height = width / scale
+  }
+  else {
+    scale = width / height;
+    height = targetHeight;
+    width = height * scale
+  }
+
+  if (targetHeight < height) {
+    scale = width / height;
+    height = targetHeight;
+    width = height * scale
+  }
+
+  if (targetWidth < width) {
+    scale = width / height;
+    width = targetWidth;
+    height = width / scale
+  }
+
+  canvas.width = width;
+  canvas.height = height;
+  return { width, height, canvas, dpr: width / currWidth }
+}
 
 /**
  * @author 林一怂儿 
@@ -130,11 +179,9 @@ Component({
           if (this.data.isNew) {
             canvas = res[0].node
             ctx = canvas.getContext('2d')
-            let dpr = wx.getSystemInfoSync().pixelRatio
-            dpr *= CanvasDefinition;
-            canvas.width = res[0].width * dpr
-            canvas.height = res[0].height * dpr
-            ctx.scale(dpr, dpr)
+            let dpr = wx.getSystemInfoSync().pixelRatio * CanvasDefinition;
+            let maximumSize = maximumSizeOfCanvas(canvas, res[0].width, res[0].height, dpr)
+            ctx.scale(maximumSize.dpr, maximumSize.dpr)
           }
           else {
             canvas = { ...res[0] }

@@ -49,7 +49,56 @@ function createImage(canvas, src) {
     }
   })
 }
+/**
+ * canvas最大尺寸
+ * @param {HTMLCanvasElement} canvas 
+ * @param {number} width 
+ * @param {number} height 
+ * @param {number} dpr 
+ */
+function maximumSizeOfCanvas(canvas, width, height, dpr) {
+  let scale = 0;
+  let targetWidth = 4096;
+  let targetHeight = 4096;
+  let currWidth = width;
+  let currHeight = height;
 
+  width *= dpr
+  height *= dpr
+
+  if (width < targetWidth && height < targetHeight) {
+    canvas.width = width;
+    canvas.height = height;
+    return { width, height, dpr, canvas }
+  }
+  if (width > height) {
+    scale = width / height;
+    width = targetWidth;
+    height = width / scale
+  }
+  else {
+    scale = width / height;
+    height = targetHeight;
+    width = height * scale
+  }
+
+  if (targetHeight < height) {
+    scale = width / height;
+    height = targetHeight;
+    width = height * scale
+  }
+
+  if (targetWidth < width) {
+    scale = width / height;
+    width = targetWidth;
+    height = width / scale
+  }
+
+  canvas.width = width;
+  canvas.height = height;
+
+  return { width, height, canvas, dpr: width / currWidth }
+}
 /** 
  * @param {string} src 
  * @returns {Promise<WechatMiniprogram.GetImageInfoSuccessCallbackResult> }
@@ -238,7 +287,10 @@ Component({
     /** 是否使用新版的canvas */
     isNew: true,
     /** 准备好了吗 */
-    isReady: false
+    isReady: false,
+    /** 缓存宽高 */
+    width: 0,
+    height: 0,
   },
   lifetimes: {
     ready() {
@@ -259,13 +311,13 @@ Component({
           if (this.data.isNew) {
             const canvas = res[0].node
             const ctx = canvas.getContext('2d')
-            let dpr = wx.getSystemInfoSync().pixelRatio
-            dpr *= CanvasDefinition;
-            canvas.width = res[0].width * dpr
-            canvas.height = res[0].height * dpr
-            ctx.scale(dpr, dpr)
+            let dpr = wx.getSystemInfoSync().pixelRatio * CanvasDefinition;
+            let maximumSize = maximumSizeOfCanvas(canvas, res[0].width, res[0].height, dpr)
+            ctx.scale(maximumSize.dpr, maximumSize.dpr)
             this.data.canvas = canvas;
             this.data.ctx = ctx;
+            this.data.width = res[0].width
+            this.data.height = res[0].height
             this.loaded = true;
           }
           else {
@@ -286,10 +338,8 @@ Component({
     async loadSrc(src) {
       /** @type {HTMLCanvasElement} */
       let canvas = this.data.canvas;
-      let dpr = wx.getSystemInfoSync().pixelRatio
-      dpr *= CanvasDefinition;
-      let width = canvas.width / dpr
-      let height = canvas.height / dpr
+      let width = this.data.width
+      let height = this.data.height
       let image = this.data.isNew ? await createImage(canvas, src) : await getImageInfo(src)
       if (!this.data.isNew) {
         width = canvas.width;
