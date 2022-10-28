@@ -311,7 +311,7 @@ Component({
           if (this.data.isNew) {
             const canvas = res[0].node
             const ctx = canvas.getContext('2d')
-            let dpr = wx.getSystemInfoSync().pixelRatio * CanvasDefinition;
+            let dpr = wx.getSystemInfoSync().pixelRatio;
             let maximumSize = maximumSizeOfCanvas(canvas, res[0].width, res[0].height, dpr)
             ctx.scale(maximumSize.dpr, maximumSize.dpr)
             this.data.canvas = canvas;
@@ -355,6 +355,7 @@ Component({
     toDataURL(type, quality) {
       if (!this.data.isNew) {
         return new Promise((resolve) => {
+
           this.data.ctx.draw(true, () => {
             wx.canvasToTempFilePath({
               fileType: 'jpg',
@@ -368,7 +369,19 @@ Component({
         })
       }
       else {
-        return this.data.canvas?.toDataURL(type, quality)
+        let { width, height, canvas, ctx } = this.data
+        // 放大尺寸渲染
+        let dpr = wx.getSystemInfoSync().pixelRatio * CanvasDefinition;
+        let maximumSize = maximumSizeOfCanvas(canvas, width, height, dpr)
+        ctx.scale(maximumSize.dpr, maximumSize.dpr)
+        this.render();
+        let base64 = this.data.canvas?.toDataURL(type, quality)
+        // 还原尺寸渲染
+        dpr = wx.getSystemInfoSync().pixelRatio;
+        maximumSize = maximumSizeOfCanvas(canvas, width, height, dpr)
+        ctx.scale(maximumSize.dpr, maximumSize.dpr)
+        this.render();
+        return base64
       }
     },
     touchstart(e) {
