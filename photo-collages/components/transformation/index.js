@@ -291,6 +291,7 @@ Component({
     /** 缓存宽高 */
     width: 0,
     height: 0,
+    loading: false
   },
   lifetimes: {
     ready() {
@@ -302,11 +303,11 @@ Component({
     reset() {
       if (!this.data.isReady) return;
       if (this.isLowerThenVersion('2.11.0')) this.setData({ isNew: false })
-
+      this.setData({ loading: true })
       const query = this.createSelectorQuery()
       query.select('#photo').fields({ node: true, size: true });
       query.select('.photo.abs').fields({ node: true, size: true });
-      // setTimeout(() => {
+      setTimeout(() => {
       query.exec(async (res) => {
         if (this.data.isNew) {
           const canvas = res[0].node
@@ -325,11 +326,11 @@ Component({
           this.data.ctx = wx.createCanvasContext('photo', this)
         }
         await this.loadSrc(this.properties.src)
-        // setTimeout(() => {
-        this.setData({ photo: this.data.photo })
-        // }, 0)
+        setTimeout(() => {
+        this.setData({ photo: this.data.photo, loading: false })
+        }, 0)
       })
-      // }, 0);
+      }, 0);
     },
     /**
      * 读图片
