@@ -1,4 +1,4 @@
-<c-mixer id="pm" bind:change="change"></c-mixer>
+<c-mixer id="pm" bind:change="change" config="{{config}}"></c-mixer>
 <view class="op">
     <button type="primary" bindtap="add">添加</button>
     <button type="primary" bindtap="save">保存</button>

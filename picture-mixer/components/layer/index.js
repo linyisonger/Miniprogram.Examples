@@ -1,4 +1,4 @@
-import { Layer, ArrangeType, AlignType, Transparent, InitSize, LayerType, LayerDefinition } from './layer'
+import { Layer, ArrangeType, AlignType, Transparent, InitSize, LayerType, LayerDefinition, LayerOperateMode, LayerMoveMode } from './layer'
 import { V2 } from './v2'
 import {
     createImage,
@@ -27,5 +27,7 @@ export {
     Transparent,
     InitSize,
     LayerType,
-    LayerDefinition
+    LayerDefinition,
+    LayerOperateMode,
+    LayerMoveMode
 }

@@ -21,7 +21,7 @@
 }
 
 .image-container.operate {
-    border: 1px dashed rgb(79, 159, 246);
+    border: var(--operate-border, 1px dashed rgb(79, 159, 246));
     transform-origin: center;
 }
 

@@ -1,7 +1,7 @@
 <view class="layer-container">
     <view hidden="{{!loaded}}" class="image-container {{operate?'operate':''}}" catchtouchstart="touchstart" catchtouchmove="touchmove" catchtouchend="touchend" style="width: {{width}}px;height: {{height}}px; left: {{left}}px;top: {{top}}px; min-width: {{minWidth}}px;min-height: {{minHeight}}px; transform: rotate({{angle}}deg);">
         <image class="image" src="{{src}}" mode="scaleToFill"></image>
-        <image hidden="{{!operate}}" class="operate-delete" src="/img/shanchu.svg" catchtouchstart="remove"></image>
-        <image hidden="{{!operate}}" class="operate-scale" src="/img/fangda.svg" catchtouchstart="touchstart" catchtouchmove="touchmove" catchtouchend="touchend" data-type="scale"></image>
+        <image hidden="{{!operate||!hasRemove}}" class="operate-delete" src="{{deleteIcon||'/img/shanchu.svg'}}" catchtouchstart="remove"></image>
+        <image hidden="{{!operate||!hasScale}}" class="operate-scale" src="{{scaleIcon||'/img/fangda.svg'}}" catchtouchstart="touchstart" catchtouchmove="touchmove" catchtouchend="touchend" data-type="scale"></image>
     </view>
 </view>

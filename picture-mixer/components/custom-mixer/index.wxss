@@ -14,4 +14,5 @@
     left: 0;
     right: 0;
     z-index: 0;
+    --operate-border: 2px solid #1eb8ce;
 }

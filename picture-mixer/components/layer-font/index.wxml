@@ -1,2 +1,0 @@
-<layer-image operate="{{operate}}" bind:doubletap="doubletap" bind:operate="handleOperate" bind:change="handleChange" class="image" init="{{init}}" wx:if="{{src}}" src="{{src}}" minWidth="{{minWidth}}" minHeight="{{minHeight}}" bind:remove="remove"></layer-image>
-<canvas id="font" type="2d" class="font" style="width: {{canvasWidth}}px;height: {{canvasHeight}}px;"></canvas>
