@@ -340,7 +340,7 @@ Component({
       let canvas = this.data.canvas;
       let width = this.data.width
       let height = this.data.height
-      let image = this.data.isNew ? await createImage(canvas, src) : await getImageInfo(src)
+      let image = this.data.photo?.img?.src === src ? this.data.photo.img : this.data.isNew ? await createImage(canvas, src) : await getImageInfo(src)
       if (!this.data.isNew) {
         width = canvas.width;
         height = canvas.height
