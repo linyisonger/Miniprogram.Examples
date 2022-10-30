@@ -1,5 +1,5 @@
 // 画布清晰度
-const CanvasDefinition = 3;
+const CanvasDefinition = 2;
 /**
  * 缩放
  * @param {number} ow 源图宽 
@@ -58,8 +58,8 @@ function createImage(canvas, src) {
  */
 function maximumSizeOfCanvas(canvas, width, height, dpr) {
   let scale = 0;
-  let targetWidth = 4096;
-  let targetHeight = 4096;
+  let targetWidth = 3600;
+  let targetHeight = 3600;
   let currWidth = width;
   let currHeight = height;
 
@@ -306,30 +306,30 @@ Component({
       const query = this.createSelectorQuery()
       query.select('#photo').fields({ node: true, size: true });
       query.select('.photo.abs').fields({ node: true, size: true });
-      setTimeout(() => {
-        query.exec(async (res) => {
-          if (this.data.isNew) {
-            const canvas = res[0].node
-            const ctx = canvas.getContext('2d')
-            let dpr = wx.getSystemInfoSync().pixelRatio;
-            let maximumSize = maximumSizeOfCanvas(canvas, res[0].width, res[0].height, dpr)
-            ctx.scale(maximumSize.dpr, maximumSize.dpr)
-            this.data.canvas = canvas;
-            this.data.ctx = ctx;
-            this.data.width = res[0].width
-            this.data.height = res[0].height
-            this.loaded = true;
-          }
-          else {
-            this.setData({ canvas: { ...res[1] } })
-            this.data.ctx = wx.createCanvasContext('photo', this)
-          }
-          await this.loadSrc(this.properties.src)
-          setTimeout(() => {
-            this.render();
-          }, 0)
-        })
-      }, 0);
+      // setTimeout(() => {
+      query.exec(async (res) => {
+        if (this.data.isNew) {
+          const canvas = res[0].node
+          const ctx = canvas.getContext('2d')
+          let dpr = wx.getSystemInfoSync().pixelRatio * CanvasDefinition;
+          let maximumSize = maximumSizeOfCanvas(canvas, res[0].width, res[0].height, dpr)
+          ctx.scale(maximumSize.dpr, maximumSize.dpr)
+          this.data.canvas = canvas;
+          this.data.ctx = ctx;
+          this.data.width = res[0].width
+          this.data.height = res[0].height
+          this.loaded = true;
+        }
+        else {
+          this.setData({ canvas: { ...res[1] } })
+          this.data.ctx = wx.createCanvasContext('photo', this)
+        }
+        await this.loadSrc(this.properties.src)
+        // setTimeout(() => {
+        this.setData({ photo: this.data.photo })
+        // }, 0)
+      })
+      // }, 0);
     },
     /**
      * 读图片
@@ -352,10 +352,9 @@ Component({
       let h = oh
       this.data.photo = new Photo(x, y, w, h, image)
     },
-    toDataURL(type, quality) {
+    async toDataURL(type, quality) {
       if (!this.data.isNew) {
         return new Promise((resolve) => {
-
           this.data.ctx.draw(true, () => {
             wx.canvasToTempFilePath({
               fileType: 'jpg',
@@ -370,17 +369,9 @@ Component({
       }
       else {
         let { width, height, canvas, ctx } = this.data
-        // 放大尺寸渲染
-        let dpr = wx.getSystemInfoSync().pixelRatio * CanvasDefinition;
-        let maximumSize = maximumSizeOfCanvas(canvas, width, height, dpr)
-        ctx.scale(maximumSize.dpr, maximumSize.dpr)
-        this.render();
+        await this.render();
         let base64 = this.data.canvas?.toDataURL(type, quality)
-        // 还原尺寸渲染
-        dpr = wx.getSystemInfoSync().pixelRatio;
-        maximumSize = maximumSizeOfCanvas(canvas, width, height, dpr)
-        ctx.scale(maximumSize.dpr, maximumSize.dpr)
-        this.render();
+        ctx.clearRect(0, 0, width, height)
         return base64
       }
     },
@@ -409,11 +400,11 @@ Component({
       if (touchs.length >= 2) {
         this.scaling(touchs);
         this.rotating(touchs)
-        this.render();
+        this.setData({ photo: this.data.photo })
       }
       else if (touchs.length === 1 && this.data.allowMove) {
         this.moving(touchs[0])
-        this.render();
+        this.setData({ photo: this.data.photo })
       }
     },
     touchend(e) {
@@ -477,26 +468,29 @@ Component({
       return dis;
     },
     render() {
-      /** @type {HTMLCanvasElement} */
-      const canvas = this.data.canvas;
-      /** @type {CanvasRenderingContext2D} */
-      const ctx = this.data.ctx;
-      /** @type {Photo} */
-      const photo = this.data.photo;
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
-      if (this.data.isNew) {
-        ctx.save();
-        ctx.translate(photo.x + photo.w / 2, photo.y + photo.h / 2)
-        ctx.rotate(photo.a * Math.PI / 180)
-        ctx.drawImage(photo.img, -photo.w / 2, -photo.h / 2, photo.w, photo.h)
-        ctx.restore();
-      }
-      else {
-        ctx.translate(photo.x + photo.w / 2, photo.y + photo.h / 2)
-        ctx.rotate(photo.a * Math.PI / 180)
-        ctx.drawImage(this.properties.src, -photo.w / 2, -photo.h / 2, photo.w, photo.h)
-        ctx.draw(false)
-      }
+      return new Promise((resolve) => {
+        /** @type {HTMLCanvasElement} */
+        const canvas = this.data.canvas;
+        /** @type {CanvasRenderingContext2D} */
+        const ctx = this.data.ctx;
+        /** @type {Photo} */
+        const photo = this.data.photo;
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        if (this.data.isNew) {
+          ctx.save();
+          ctx.translate(photo.x + photo.w / 2, photo.y + photo.h / 2)
+          ctx.rotate(photo.a * Math.PI / 180)
+          ctx.drawImage(photo.img, -photo.w / 2, -photo.h / 2, photo.w, photo.h)
+          ctx.restore();
+          resolve()
+        }
+        else {
+          ctx.translate(photo.x + photo.w / 2, photo.y + photo.h / 2)
+          ctx.rotate(photo.a * Math.PI / 180)
+          ctx.drawImage(this.properties.src, -photo.w / 2, -photo.h / 2, photo.w, photo.h)
+          ctx.draw(false, resolve)
+        }
+      })
     },
     // 是否低于某个版本
     isLowerThenVersion(target) {

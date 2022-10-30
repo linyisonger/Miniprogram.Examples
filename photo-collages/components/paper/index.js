@@ -1,5 +1,5 @@
 // 画布清晰度
-const CanvasDefinition = 3;
+const CanvasDefinition = 2;
 class Rect {
   /** @type {number} 节点的ID */
   id
@@ -86,8 +86,8 @@ function drawBorder(ctx, x, y, w, h) {
  */
 function maximumSizeOfCanvas(canvas, width, height, dpr) {
   let scale = 0;
-  let targetWidth = 4096;
-  let targetHeight = 4096;
+  let targetWidth = 3600;
+  let targetHeight = 3600;
   let currWidth = width;
   let currHeight = height;
 
@@ -203,11 +203,7 @@ Component({
 
           let padding = paper.width - content.width;
           // 结果图片数组
-          let resultImageUrls = this.data.isNew ? this.selectAllComponents('.trans').map(tran => {
-            return tran.toDataURL(type, query)
-          }) : await Promise.all(this.selectAllComponents('.trans').map(tran => {
-            return tran.toDataURL(type, query)
-          }))
+          let resultImageUrls = await Promise.all(this.selectAllComponents('.trans').map(tran => tran.toDataURL(type, query)))
           // 摆盘
           for (let i = 0; i < this.data.composing.length; i++) {
             /** @type {import('../composing/index').Composing} */

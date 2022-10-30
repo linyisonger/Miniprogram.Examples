@@ -83,7 +83,7 @@ Page({
   },
   composingChange(e) {
     const paperSize = e.detail?.paperSize ?? { w: 0, h: 0 }
-    setTimeout(() => {
+    // setTimeout(() => {
       wx.createSelectorQuery().select('.container').boundingClientRect().exec((res) => {
         let { windowWidth } = wx.getSystemInfoSync()
         let [con] = res
@@ -98,7 +98,7 @@ Page({
         paperSize.h = oh;
         this.setData({ composingArr: e.detail?.composing ?? [], paperSize })
       })
-    }, 0);
+    // }, 0);
   },
   async composePhoto() {
     let result = await this.selectComponent('.main').toDataUrl()

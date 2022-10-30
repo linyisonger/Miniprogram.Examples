@@ -1,4 +1,6 @@
-<view class="abs photo"></view>
+<view class="abs photo">
+  <image class="photo__image" src="{{src}}" mode="aspectFit" style="transform:rotate({{photo.a}}deg); left: {{photo.x}}px;top: {{photo.y}}px; width: {{photo.w}}px;height: {{photo.h}}px;"></image>
+</view>
 <canvas wx:if="{{isNew}}" type="2d" id="photo" class="photo" bindtouchstart="touchstart" bindtouchmove="touchmove" bindtouchend="touchend" disable-scroll="{{true}}">
   <slot></slot>
 </canvas>
