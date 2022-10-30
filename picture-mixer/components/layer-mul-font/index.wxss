@@ -1,0 +1,54 @@
+:host {
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.layer-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.text-container {
+    position: absolute;
+    pointer-events: all;
+}
+
+.text-container .text {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: normal !important;
+}
+
+.text-container.operate {
+    border: 1px dashed rgb(79, 159, 246);
+    transform-origin: center;
+}
+
+.text-container.operate .operate-delete,
+.text-container.operate .operate-scale {
+    width: 50rpx;
+    height: 50rpx;
+    position: absolute;
+    z-index: 1;
+}
+
+.text-container.operate .operate-delete {
+    left: 0;
+    top: 0;
+    transform: translate(-50%, -50%);
+}
+
+.text-container.operate .operate-scale {
+    right: 0;
+    bottom: 0;
+    transform: translate(50%, 50%);
+}
+
+.font {
+    position: absolute;
+    top: -1000px;
+}

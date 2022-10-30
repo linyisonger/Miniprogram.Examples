@@ -1,0 +1,2 @@
+<image class="background" src="{{src}}" mode="scaleToFill"></image>
+<canvas type="2d" id="background" class="canvas background"></canvas>

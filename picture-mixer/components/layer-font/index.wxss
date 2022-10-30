@@ -1,0 +1,8 @@
+:host {
+  pointer-events: none;
+  overflow: hidden;
+}
+.font{
+  position: absolute;
+  top: -1000px;
+}
