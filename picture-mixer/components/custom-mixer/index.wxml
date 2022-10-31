@@ -1,11 +1,9 @@
 <view bind:tap="handleOperateLayer" data-index="-1" class="paper">
-    <block wx:if="{{!isRender}}">
-        <block wx:for="{{layers}}" wx:key="unique">
-            <layer-background wx:if="{{item.type === 'background'}}" class="paper-child" bgColor="{{item.bgColor}}" bgImage="{{item.bgImage}}" isPrint="{{item.isPrint}}"></layer-background>
-            <layer-image minRatio="{{minRatio}}" scaleIcon="{{scaleIcon}}" deleteIcon="{{deleteIcon}}" init="{{item}}" bind:operate="handleOperateLayer" operate="{{index===operateLayerIndex}}" operateMode="{{operateMode}}" wx:if="{{item.type === 'image'}}" class="paper-child" bind:change="handleChangeLayer" bind:remove="handleRemoveLayer" data-index="{{index}}" src="{{item.src}}" style="z-index: {{item.weight}};"></layer-image>
-        </block>
-        <layer-background class="paper-child" bgImage="{{guide.bgImage}}" bgColor="{{guide.bgColor}}" style="z-index: 1;"></layer-background>
-        <layer-background class="paper-child" wx:if="{{layers.length < 2}}" bgImage="{{watermark.bgImage}}" bgColor="{{watermark.bgColor}}" width="{{watermark.width}}" height="{{watermark.height}}" style="z-index: 1;"></layer-background>
-        <layer-compose class="layer-compose"></layer-compose>
+    <block wx:for="{{layers}}" wx:key="unique">
+        <layer-background wx:if="{{item.type === 'background'}}" class="paper-child" bgColor="{{item.bgColor}}" bgImage="{{item.bgImage}}" isPrint="{{item.isPrint}}"></layer-background>
+        <layer-image minRatio="{{minRatio}}" scaleIcon="{{scaleIcon}}" deleteIcon="{{deleteIcon}}" init="{{item}}" bind:operate="handleOperateLayer" operate="{{index===operateLayerIndex}}" operateMode="{{operateMode}}" wx:if="{{item.type === 'image'}}" class="paper-child" bind:change="handleChangeLayer" bind:remove="handleRemoveLayer" data-index="{{index}}" src="{{item.src}}" style="z-index: {{item.weight}}; {{item.isRender == false?'display:none':''}} "></layer-image>
     </block>
+    <layer-background class="paper-child" bgImage="{{guide.bgImage}}" bgColor="{{guide.bgColor}}" style="z-index: 1;"></layer-background>
+    <layer-background class="paper-child" wx:if="{{layerImageLength < 1}}" bgImage="{{watermark.bgImage}}" bgColor="{{watermark.bgColor}}" width="{{watermark.width}}" height="{{watermark.height}}" style="z-index: 1;"></layer-background>
+    <layer-compose class="layer-compose"></layer-compose>
 </view>

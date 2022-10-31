@@ -8,6 +8,7 @@ Component({
         }
     },
     data: {
+        layerImageLength: 0,
         /** @type {Layer[]} */
         layers: [
             {
@@ -40,11 +41,15 @@ Component({
     },
     methods: {
         handleChangeLayer(e) {
+            console.log(e);
             const { index } = e.currentTarget.dataset
             const layer = this.data.layers[index];
-            this.setData({ [`layers[${index}]`]: { ...layer, ...e.detail } })
+            let layerWeight = this.handleGetLayerImageRender()
+            this.setData({ [`layers[${index}]`]: { ...layer, ...e.detail }, layerImageLength: layerWeight.length })
+            this.triggerEvent('change', { layers: this.data.layers.filter(layer => layer.type === 'image') })
         },
         handleOperateLayer(e) {
+            console.log("handleOperateLayer", e);
             const { operateLayerIndex, layers } = this.data;
             const { index } = e.currentTarget.dataset
             if (index == -1 || layers.length < 3) {
@@ -53,29 +58,48 @@ Component({
                 })
             }
             else if (index !== operateLayerIndex) {
-                layers[index].weight = this.handleGetMaxLayerWeight() + 1;
+                layers[index].weight = this.handleGetLayerImageRender().max + 1;
                 this.setData({
                     [`layers[${index}]`]: layers[index],
                     ['operateLayerIndex']: index
                 })
             }
         },
-        handleGetMaxLayerWeight() {
-            const { layers } = this.data
-            let max = layers[0]?.weight ?? 1
-            for (let i = 1; i < layers.length; i++) if (max < layers[i]?.weight) max = layers[i].weight
-            return max;
+        handleGetLayerImageRender() {
+            let { layers } = this.data
+            let max = 1
+            let index = -1;
+            let length = 0
+            for (let i = 0; i < layers.length; i++) {
+                let tmp = layers[i];
+                if (tmp.type !== 'image') continue;
+                if (tmp.isRender === false) continue;
+                if (max >= tmp?.weight) continue;
+                max = layers[i].weight;
+                index = i
+                length++;
+            }
+            return { index, max, length }
+        },
+        handleGetLayerImageDelete() {
+            let { layers } = this.data
+            let tmp = layers.findIndex(layer => layer.type === 'image' && layer.isDelete == true)
+            return { index: tmp > -1 ? tmp : layers.length, }
         },
         handleRemoveLayer(e) {
+            console.log("handleRemoveLayer", e);
             const { index } = e.currentTarget.dataset
-            this.setData({ isRender: true })
-            this.data.layers.splice(index, 1)
-            this.setData({ layers: this.data.layers, isRender: false })
+            const layer = this.data.layers[index]
+            layer.isRender = false;
+            layer.isDelete = true
+            let layerWeight = this.handleGetLayerImageRender()
+            console.log(layerWeight);
+            this.setData({ [`layers[${index}]`]: layer, operateLayerIndex: layerWeight.index, })
         },
         async save() {
             /** @type {Layer[]} */
-            let layers = this.selectAllComponents('.paper-child').map((pc) => pc.value())
-            layers = layers.filter(a => !(a.type === 'background' && !a.isPrint))
+            let layers = this.data.layers.filter(a => !(a.type === 'background' && !a.isPrint))
+            layers = layers.filter(a => a.isRender !== false)
             let result = await this.selectComponent('.layer-compose').render(layers)
             return { ...result, tempFilePath: result.tempPath }
         },
@@ -84,7 +108,7 @@ Component({
                 [`layers[${this.data.layers.length}]`]: {
                     type: 'image',
                     src: tempFilePath,
-                    weight: this.handleGetMaxLayerWeight() + 1
+                    weight: this.handleGetLayerImageRender().max + 1,
                 },
                 operateLayerIndex: this.data.layers.length
             })

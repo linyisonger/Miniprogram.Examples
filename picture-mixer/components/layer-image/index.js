@@ -102,7 +102,6 @@ Component({
 
             this.data.initWidth = tmpWidth;
             this.data.initHeight = tmpHeight;
-            console.log(tmpWidth, tmpHeight);
             this.setData({
                 left: init?.left ?? (layerWidth - tmpWidth) / 2,
                 top: init?.top ?? (layerHeight - tmpHeight) / 2,
@@ -132,52 +131,56 @@ Component({
         },
         /** 移动 */
         touchmove(e) {
-            const { touches: [{ clientX: startX, clientY: startY }], self: { top, left, width, height, angle }, currentTarget: { dataset: { type } } } = this.data.start;
-            const { touches: [{ clientX: moveX, clientY: moveY }] } = e;
-            const { width: originWidth, height: originHeight } = this.data.origin
-            const { layerLeft, layerTop, initWidth, initHeight } = this.data;
-            let { minWidth, minHeight, minRatio } = this.properties
-            /** @type {number} */
-            const operateMode = this.properties.operateMode
-            if (type === 'scale') {
-                let tmpCenterX = left + width / 2;
-                let tmpCenterY = top + height / 2;
-                let tmpStartDistance = new V2(tmpCenterX, tmpCenterY).distance(new V2(startX, startY))
-                let tmpMoveDistance = new V2(tmpCenterX, tmpCenterY).distance(new V2(moveX, moveY))
-                let scale = tmpMoveDistance / tmpStartDistance;
-                let tmpWidth = width
-                let tmpHeight = height
-                let tmpLeft = left;
-                let tmpTop = top;
-                let tmpAngle = angle;
-                if ((operateMode & LayerOperateMode.SCALE) !== 0) {
-                    if (minRatio) {
-                        minWidth = initWidth * minRatio;
-                        minHeight = initHeight * minRatio;
+            try {
+                const { touches: [{ clientX: startX, clientY: startY }], self: { top, left, width, height, angle }, currentTarget: { dataset: { type } } } = this.data.start;
+                const { touches: [{ clientX: moveX, clientY: moveY }] } = e;
+                const { width: originWidth, height: originHeight } = this.data.origin
+                const { layerLeft, layerTop, initWidth, initHeight } = this.data;
+                let { minWidth, minHeight, minRatio } = this.properties
+                /** @type {number} */
+                const operateMode = this.properties.operateMode
+                if (type === 'scale') {
+                    let tmpCenterX = left + width / 2;
+                    let tmpCenterY = top + height / 2;
+                    let tmpStartDistance = new V2(tmpCenterX, tmpCenterY).distance(new V2(startX, startY))
+                    let tmpMoveDistance = new V2(tmpCenterX, tmpCenterY).distance(new V2(moveX, moveY))
+                    let scale = tmpMoveDistance / tmpStartDistance;
+                    let tmpWidth = width
+                    let tmpHeight = height
+                    let tmpLeft = left;
+                    let tmpTop = top;
+                    let tmpAngle = angle;
+                    if ((operateMode & LayerOperateMode.SCALE) !== 0) {
+                        if (minRatio) {
+                            minWidth = initWidth * minRatio;
+                            minHeight = initHeight * minRatio;
+                        }
+                        tmpWidth = width * scale
+                        tmpHeight = height * scale
+                        tmpWidth = Math.max(tmpWidth, minWidth)
+                        tmpHeight = Math.max(tmpHeight, minHeight)
+                        tmpLeft = left + width / 2 - tmpWidth / 2;
+                        tmpTop = top + height / 2 - tmpHeight / 2;
                     }
-                    tmpWidth = width * scale
-                    tmpHeight = height * scale
-                    tmpWidth = Math.max(tmpWidth, minWidth)
-                    tmpHeight = Math.max(tmpHeight, minHeight)
-                    tmpLeft = left + width / 2 - tmpWidth / 2;
-                    tmpTop = top + height / 2 - tmpHeight / 2;
-                }
-                if ((operateMode & LayerOperateMode.ROTATE) !== 0)
-                    tmpAngle = new V2(moveX - layerLeft - tmpCenterX, moveY - layerTop - tmpCenterY).angleByOrigin() - new V2(width / 2, height / 2).angleByOrigin()
+                    if ((operateMode & LayerOperateMode.ROTATE) !== 0)
+                        tmpAngle = new V2(moveX - layerLeft - tmpCenterX, moveY - layerTop - tmpCenterY).angleByOrigin() - new V2(width / 2, height / 2).angleByOrigin()
 
-                this.setData({
-                    left: tmpLeft,
-                    top: tmpTop,
-                    width: tmpWidth,
-                    height: tmpHeight,
-                    angle: tmpAngle
-                })
-            }
-            else if ((operateMode & LayerOperateMode.MOVE) !== 0) {
-                this.setData({
-                    left: moveX - startX + left,
-                    top: moveY - startY + top
-                })
+                    this.setData({
+                        left: tmpLeft,
+                        top: tmpTop,
+                        width: tmpWidth,
+                        height: tmpHeight,
+                        angle: tmpAngle
+                    })
+                }
+                else if ((operateMode & LayerOperateMode.MOVE) !== 0) {
+                    this.setData({
+                        left: moveX - startX + left,
+                        top: moveY - startY + top
+                    })
+                }
+            } catch (error) {
+                console.log('This is a beautiful mistake', error);
             }
         },
         /** 结束 */

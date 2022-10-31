@@ -88,4 +88,8 @@ export class Layer {
     isPrint
     /** @type {number} */
     weight
+    /** @type {boolean} */
+    isRender
+    /** @type {boolean} */
+    isDelete
 }
