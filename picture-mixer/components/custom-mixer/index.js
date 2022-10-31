@@ -35,7 +35,8 @@ Component({
         operateLayerIndex: -1,
         operateMode: LayerOperateMode.MOVE_SCALE_ROTATE_REMOVE,
         deleteIcon: '',
-        scaleIcon: ''
+        scaleIcon: '',
+        minRatio: 0
     },
     methods: {
         handleChangeLayer(e) {
@@ -103,6 +104,8 @@ Component({
             if (value?.watermark?.url) update[`watermark.bgImage`] = value?.watermark?.url
             if (value?.watermark?.width) update[`watermark.width`] = value?.watermark?.width
             if (value?.watermark?.height) update[`watermark.height`] = value?.watermark?.height
+            if (value?.minRatio) update[`minRatio`] = value?.minRatio
+
             this.setData(update)
         }
     }

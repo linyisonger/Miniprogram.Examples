@@ -1,5 +1,5 @@
 // 图层清晰度
-export const LayerDefinition = 2;
+export const LayerDefinition = 2.5;
 export const LayerType = {
     image: 'image',
     font: 'font',

@@ -1,5 +1,5 @@
 
-import { V2, getImageInfo, Layer, contain, InitSize, LayerType, LayerOperateMode } from '../layer/index'
+import { V2, getImageInfo, Layer, contain, InitSize, LayerType, LayerOperateMode, LayerMoveMode } from '../layer/index'
 
 const doubleTime = 500;
 
@@ -36,7 +36,7 @@ Component({
         },
         moveMode: {
             type: Number,
-            value: LayerOperateMode.MOVE_SCALE_ROTATE_REMOVE
+            value: LayerMoveMode.BOUNDARY
         },
         deleteIcon: {
             type: String,
@@ -56,6 +56,8 @@ Component({
         layerTop: 0,
         width: 100,
         height: 100,
+        initWidth: 0,
+        initHeight: 0,
         left: 0,
         top: 0,
         angle: 0,
@@ -97,9 +99,10 @@ Component({
             const { resultWidth, resultHeight } = contain(width, height, layerWidth * initWidth, layerHeight * initHeight)
             let tmpWidth = resultWidth
             let tmpHeight = resultHeight
-            tmpWidth = Math.max(tmpWidth, this.data.minWidth)
-            tmpHeight = Math.max(tmpHeight, this.data.minHeight)
 
+            this.data.initWidth = tmpWidth;
+            this.data.initHeight = tmpHeight;
+            console.log(tmpWidth, tmpHeight);
             this.setData({
                 left: init?.left ?? (layerWidth - tmpWidth) / 2,
                 top: init?.top ?? (layerHeight - tmpHeight) / 2,
@@ -132,7 +135,8 @@ Component({
             const { touches: [{ clientX: startX, clientY: startY }], self: { top, left, width, height, angle }, currentTarget: { dataset: { type } } } = this.data.start;
             const { touches: [{ clientX: moveX, clientY: moveY }] } = e;
             const { width: originWidth, height: originHeight } = this.data.origin
-            const { layerLeft, layerTop } = this.data;
+            const { layerLeft, layerTop, initWidth, initHeight } = this.data;
+            let { minWidth, minHeight, minRatio } = this.properties
             /** @type {number} */
             const operateMode = this.properties.operateMode
             if (type === 'scale') {
@@ -147,11 +151,14 @@ Component({
                 let tmpTop = top;
                 let tmpAngle = angle;
                 if ((operateMode & LayerOperateMode.SCALE) !== 0) {
-                    // 增加最小比例逻辑
+                    if (minRatio) {
+                        minWidth = initWidth * minRatio;
+                        minHeight = initHeight * minRatio;
+                    }
                     tmpWidth = width * scale
                     tmpHeight = height * scale
-                    tmpWidth = Math.max(tmpWidth, this.data.minWidth)
-                    tmpHeight = Math.max(tmpHeight, this.data.minHeight)
+                    tmpWidth = Math.max(tmpWidth, minWidth)
+                    tmpHeight = Math.max(tmpHeight, minHeight)
                     tmpLeft = left + width / 2 - tmpWidth / 2;
                     tmpTop = top + height / 2 - tmpHeight / 2;
                 }
