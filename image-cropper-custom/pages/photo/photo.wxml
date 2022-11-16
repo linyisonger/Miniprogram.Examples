@@ -1,0 +1,33 @@
+<image-cropper imgId="{{imgId}}" iscircle="{{switch1Checked}}" imgUrl="{{imgUrl}}" pdbper="{{pdbper}}" mengHeight="{{mengHeight}}" export_scale="{{export_scale}}" img_height="{{img_height}}"  id="image-cropper" bindtapcut="clickcut" bindimageload="loadimage" limit_move="{{limit_move}}" disable_rotate="{{disable_rotate}}" width="{{width}}" height="{{height}}" imgSrc="{{src}}"  disable_width="{{disable_width}}" disable_height="{{disable_height}}" disable_ratio="{{disable_ratio}}">
+</image-cropper>
+<text  class="hint">拖动裁剪框边角和图片调整位置</text>
+<view id="editBottom" class="editBottom" style="padding-bottom:{{pdbottom}}">
+    <view class="flxsb mart32">
+        <view catchtouchstart='rotate' catchtouchend='end' data-type="rotate">旋转</view>
+        <view catchtouchstart='reset' catchtouchend='end' data-type="reset">重置</view>
+        <view catchtap="submitBtn">确定</view>
+    </view>
+</view>
+<!-- <text class="hint">点击中间裁剪框可查看裁剪后的图片</text> -->
+<!-- <view class='bottom'>
+    <text style='color:white;margin-right:5rpx;'>锁定裁剪框宽</text>
+    <switch checked='{{disable_width?true:false}}' bindchange="switchChangeDisableWidth" />
+    <text style='color:white;margin-right:5rpx;'>锁定裁剪框高</text>
+    <switch checked='{{disable_height?true:false}}' bindchange="switchChangeDisableHeight" />
+    <button bindtap='submit'>确定</button>
+    <text style='color:white;margin-right:5rpx;'>锁定比例</text>
+    <switch checked='{{disable_ratio?true:false}}' bindchange="switchChangeDisableRatio" />
+    <text></text>
+    <text style='color:white;margin-right:5rpx;'>锁定旋转</text>
+    <switch checked='{{disable_rotate?true:false}}' bindchange="switchChangeDisableRotate" />
+    <text style='color:white;margin-right:5rpx;'>限制移动</text>
+    <switch checked='{{limit_move?true:false}}' bindchange="switchChangeLimitMove" />
+    <button class="button" catchtouchstart='top' catchtouchend='end' data-type="top">上</button>
+    <button class="button" catchtouchstart='bottom' catchtouchend='end' data-type="bottom">下</button>
+    <button class="button" catchtouchstart='left' catchtouchend='end' data-type="left">左</button>
+    <button class="button" catchtouchstart='right' catchtouchend='end' data-type="right">右</button>
+    <button class="button" catchtouchstart='enlarge' catchtouchend='end' data-type="enlarge">放大</button>
+    <button class="button" catchtouchstart='narrow' catchtouchend='end' data-type="narrow">缩小</button>
+    <button class="button" catchtouchstart='rotate' catchtouchend='end' data-type="rotate">旋转</button>
+    <button class="button" catchtap='upload'>上传</button>
+</view> -->

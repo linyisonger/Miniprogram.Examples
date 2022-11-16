@@ -1,0 +1,8 @@
+{
+    "usingComponents": {
+      "image-cropper": "../../components/image-cropper/image-cropper"
+    },
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTitleText": "图片编辑",
+    "disableScroll": true
+  }

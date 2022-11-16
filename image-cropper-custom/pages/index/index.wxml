@@ -1,0 +1,4 @@
+<!--index.wxml-->
+<view catchtap="chooseP" class="container">
+  选择照片
+</view>

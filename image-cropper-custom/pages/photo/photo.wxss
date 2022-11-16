@@ -1,0 +1,111 @@
+.top {
+    position: absolute;
+    width: 100%;
+    top: 0rpx;
+    display: flex;
+    flex-flow: wrap;
+    z-index: 10;
+    color: white;
+    justify-content: space-around;
+}
+
+.hint {
+    position: absolute;
+    top: 50rpx;
+    width: 100%;
+    font-size: 32rpx;
+    text-align: center;
+    color: white;
+    z-index: 10;
+}
+
+.editBottom {
+    z-index: 10;
+    background-color: #fff;
+    padding: 32rpx;
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    width: 100%;
+    box-sizing: border-box;
+    color: #2062ed;
+    font-size: 32rpx;
+}
+
+page {
+    background: white;
+}
+
+view {
+    font-size: 30rpx;
+}
+
+.mbImg {
+    width: 160rpx;
+    height: 160rpx;
+    border-radius: 10rpx;
+    margin-right: 30rpx;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+.overImgV {
+    width: 160rpx;
+    height: 160rpx;
+    display: inline-block;
+    position: relative;
+    margin-right: 30rpx;
+}
+
+.overImgT {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    font-size: 26rpx;
+    height: 50rpx;
+    line-height: 50rpx;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    text-align: center;
+}
+
+.tepmname {
+    margin-right: 30rpx;
+    display: inline-block;
+    color: #2062ed;
+}
+
+.tepmname1 {
+    margin-right: 30rpx;
+    display: inline-block;
+    color: #666;
+}
+
+.mbImg1 {
+    width: 160rpx;
+    height: 160rpx;
+    border-radius: 10rpx;
+    margin-right: 30rpx;
+    border: 5rpx solid #2062ed;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+.scroll-view_H {
+    width: 100%;
+    white-space: nowrap;
+}
+
+.flxsb {
+    display: flex;
+    justify-content: space-between;
+}
+
+.mart32 {
+    margin-top: 32rpx;
+}
+
+image-cropper {
+    --image-border: 2px solid blue;
+}
